@@ -1,8 +1,9 @@
 package ru.hse.sd.hwproj.utils
 
-import java.time.ZonedDateTime
+import java.time.Instant
 
-typealias Timestamp = ZonedDateTime
+
+typealias Timestamp = Instant
 
 data class CheckerProgram(val bytes: ByteArray) {
 

@@ -19,5 +19,5 @@ data class CreateAssignmentRequest(
     val taskText: String,
     val publicationTimestamp: Timestamp,
     val deadlineTimestamp: Timestamp,
-    val checker: CheckerProgram
+    val checker: CheckerProgram?
 ) : RequestModel

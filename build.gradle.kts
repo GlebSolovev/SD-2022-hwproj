@@ -13,6 +13,9 @@ repositories {
 }
 
 dependencies {
+    implementation("org.ktorm:ktorm-core:3.4.1")
+    implementation("org.xerial:sqlite-jdbc:3.36.0.3")
+
     testImplementation(kotlin("test"))
 }
 

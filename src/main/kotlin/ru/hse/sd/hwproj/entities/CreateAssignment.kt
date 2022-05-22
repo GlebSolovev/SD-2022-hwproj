@@ -2,11 +2,21 @@ package ru.hse.sd.hwproj.entities
 
 import ru.hse.sd.hwproj.models.CreateAssignmentRequest
 import ru.hse.sd.hwproj.models.CreateAssignmentResponse
+import ru.hse.sd.hwproj.storage.Storage
 
-class CreateAssignment : AbstractEntity<CreateAssignmentRequest>() {
+class CreateAssignment(private val storage: Storage) : AbstractEntity<CreateAssignmentRequest>() {
 
     override fun execute(request: CreateAssignmentRequest): CreateAssignmentResponse {
-        TODO("Not yet implemented")
+        val (name, taskText, publicationTimestamp, deadlineTimestamp, checker) = request
+        return CreateAssignmentResponse(
+            storage.createAssignment(
+                name,
+                taskText,
+                publicationTimestamp,
+                deadlineTimestamp,
+                checker
+            )
+        )
     }
 
 }

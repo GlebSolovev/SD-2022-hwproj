@@ -1,12 +1,11 @@
 package ru.hse.sd.hwproj.entities
 
-import ru.hse.sd.hwproj.models.ListAssignmentsRequest
-import ru.hse.sd.hwproj.models.ListAssignmentsResponse
+import ru.hse.sd.hwproj.models.*
+import ru.hse.sd.hwproj.storage.Storage
 
-class ListAssignments : AbstractEntity<ListAssignmentsRequest>() {
+class ListAssignments(private val storage: Storage) : AbstractEntity<ListAssignmentsRequest>() {
 
-    override fun execute(request: ListAssignmentsRequest): ListAssignmentsResponse {
-        TODO("Not yet implemented")
-    }
+    override fun execute(request: ListAssignmentsRequest): ListAssignmentsResponse =
+        ListAssignmentsResponse(storage.listAssignments().map { AssignmentResponse(it) })
 
 }
