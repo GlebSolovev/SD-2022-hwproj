@@ -1,11 +1,18 @@
 package ru.hse.sd.hwproj.interactor
 
+import ru.hse.sd.hwproj.entities.*
 import ru.hse.sd.hwproj.storage.Storage
 
-class EntityGateway(private val storage: Storage) {
+class EntityGateway(storage: Storage) {
 
-    inline fun <reified E> getEntity(): E {
-        TODO("Not yet implemented")
-    }
+    val createAssignment = CreateAssignment(storage)
+
+    val getSubmissionDetails = GetSubmissionDetails(storage)
+
+    val listAssignments = ListAssignments(storage)
+
+    val listSubmissions = ListSubmissions(storage)
+
+    val submitSubmission = SubmitSubmission(storage)
 
 }
