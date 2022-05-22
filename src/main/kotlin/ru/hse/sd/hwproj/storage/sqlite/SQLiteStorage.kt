@@ -1,10 +1,13 @@
 package ru.hse.sd.hwproj.storage.sqlite
 
 import org.ktorm.database.Database
-import org.ktorm.dsl.*
-import org.ktorm.entity.*
+import org.ktorm.dsl.eq
+import org.ktorm.dsl.insertAndGenerateKey
+import org.ktorm.entity.Entity
+import org.ktorm.entity.firstOrNull
+import org.ktorm.entity.sequenceOf
+import org.ktorm.entity.toList
 import org.ktorm.schema.*
-import org.sqlite.SQLiteDataSource
 import ru.hse.sd.hwproj.storage.AssignmentORM
 import ru.hse.sd.hwproj.storage.CheckResultORM
 import ru.hse.sd.hwproj.storage.Storage
@@ -15,7 +18,7 @@ import java.time.Instant
 
 class SQLiteStorage : Storage {
 
-    private val database = Database.connect(SQLiteDataSource().apply { url = "jdbc:sqlite::memory:" })
+    private val database: Database
 
     init {
         val createAssignmentsTable = """
@@ -23,34 +26,36 @@ class SQLiteStorage : Storage {
             name TEXT NOT NULL,
             taskText TEXT NOT NULL,
             publicationTimestamp TIMESTAMP NOT NULL,
-            deadlineTimestamp TIMESTAMP NOT NULL, 
+            deadlineTimestamp TIMESTAMP NOT NULL,
             checkerProgram BYTES,
             id INT PRIMARY KEY
-            )
+            );
         """.trimIndent()
         val createSubmissionsTable = """
             CREATE TABLE IF NOT EXISTS t_submission (
             submissionTimestamp TIMESTAMP NOT NULL,
             submissionLink TEXT NOT NULL,
             assignmentId INT REFERENCES t_assignment (id) NOT NULL,
-            checkResultId INT REFERENCES t_check_result (id) NOT NULL, 
+            checkResultId INT REFERENCES t_check_result (id) NOT NULL,
             id INT PRIMARY KEY
-            )
+            );
         """.trimIndent()
         val createCheckResultsTable = """
             CREATE TABLE IF NOT EXISTS t_check_result (
             success BOOLEAN NOT NULL,
             output TEXT NOT NULL,
             id INT PRIMARY KEY
-            )
+            );
         """.trimIndent()
 
+        database = Database.connect("jdbc:sqlite:temp/test.db")
+
         database.useConnection { connection ->
-            val statement = connection.createStatement()
-            statement.execute(createAssignmentsTable)
-            statement.execute(createCheckResultsTable)
-            statement.execute(createSubmissionsTable)
-            statement.close()
+            connection.createStatement().use {
+                it.execute(createAssignmentsTable)
+                it.execute(createCheckResultsTable)
+                it.execute(createSubmissionsTable)
+            }
         }
     }
 
