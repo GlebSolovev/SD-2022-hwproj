@@ -1,29 +1,29 @@
 package ru.hse.sd.hwproj.utils
 
 import kotlinx.serialization.KSerializer
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.descriptors.*
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import java.time.Instant
 
 typealias Timestamp = Instant
 
+@Serializable
+@SerialName("Timestamp")
+private data class TimestampSurrogate(val epochSecond: Long, val nano: Int)
+
 class TimestampSerializer : KSerializer<Timestamp> {
-    override val descriptor = buildClassSerialDescriptor("Timestamp") {
-        element<Long>("epochSeconds")
-        element<Long>("nanos")
-    }
+    override val descriptor = TimestampSurrogate.serializer().descriptor
 
     override fun serialize(encoder: Encoder, value: Instant) {
-        encoder.encodeLong(value.epochSecond)
-        encoder.encodeLong(value.nano.toLong())
+        val surrogate = TimestampSurrogate(value.epochSecond, value.nano)
+        encoder.encodeSerializableValue(TimestampSurrogate.serializer(), surrogate)
     }
 
     override fun deserialize(decoder: Decoder): Instant {
-        val epochSeconds = decoder.decodeLong()
-        val nanos = decoder.decodeLong()
-        return Instant.ofEpochSecond(epochSeconds, nanos)
+        val surrogate = decoder.decodeSerializableValue(TimestampSurrogate.serializer())
+        return Instant.ofEpochSecond(surrogate.epochSecond, surrogate.nano.toLong())
     }
 }
 
