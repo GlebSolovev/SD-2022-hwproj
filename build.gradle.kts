@@ -14,9 +14,13 @@ repositories {
 }
 
 val ktorVersion = "2.0.1"
+val exposedVersion = "0.38.2"
 
 dependencies {
-    implementation("org.ktorm:ktorm-core:3.4.1")
+    implementation("org.jetbrains.exposed:exposed-core:$exposedVersion")
+    implementation("org.jetbrains.exposed:exposed-dao:$exposedVersion")
+    implementation("org.jetbrains.exposed:exposed-java-time:$exposedVersion")
+    runtimeOnly("org.jetbrains.exposed:exposed-jdbc:$exposedVersion")
     implementation("org.xerial:sqlite-jdbc:3.36.0.3")
 
     implementation("io.ktor:ktor-server-core:$ktorVersion")

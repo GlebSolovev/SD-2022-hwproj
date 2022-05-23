@@ -9,7 +9,7 @@ class GetSubmissionDetails(private val storage: Storage) : AbstractEntity<GetSub
         val submission = storage.getSubmission(request.submissionId) ?: return GetAbsentSubmissionDetailsResponse
         return GetExistingSubmissionDetailsResponse(
             SubmissionResponse(submission),
-            CheckResultResponse(submission.checkResult)
+            submission.checkResult?.let { CheckResultResponse(it) }
         )
     }
 

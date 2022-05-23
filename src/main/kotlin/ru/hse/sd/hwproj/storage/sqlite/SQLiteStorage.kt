@@ -1,10 +1,13 @@
 package ru.hse.sd.hwproj.storage.sqlite
 
-import org.ktorm.database.Database
-import org.ktorm.dsl.eq
-import org.ktorm.dsl.insertAndGenerateKey
-import org.ktorm.entity.*
-import org.ktorm.schema.*
+import org.jetbrains.exposed.dao.IntEntity
+import org.jetbrains.exposed.dao.IntEntityClass
+import org.jetbrains.exposed.dao.id.EntityID
+import org.jetbrains.exposed.dao.id.IntIdTable
+import org.jetbrains.exposed.sql.Database
+import org.jetbrains.exposed.sql.SchemaUtils
+import org.jetbrains.exposed.sql.javatime.timestamp
+import org.jetbrains.exposed.sql.transactions.transaction
 import org.sqlite.SQLiteDataSource
 import ru.hse.sd.hwproj.storage.AssignmentORM
 import ru.hse.sd.hwproj.storage.CheckResultORM
@@ -14,116 +17,109 @@ import ru.hse.sd.hwproj.utils.CheckerProgram
 import ru.hse.sd.hwproj.utils.Timestamp
 import java.time.Instant
 
-class SQLiteStorage(sourcePath: String) : Storage {
+// if no source provided, use in-memory DB
+class SQLiteStorage(sourcePath: String?) : Storage {
 
-    private val database: Database
+    object Assignments : IntIdTable() {
+        val name = text("name")
+        val taskText = text("taskText")
+        val publicationTimestamp = timestamp("publicationTimestamp")
+        val deadlineTimestamp = timestamp("deadlineTimestamp")
+        val checkerProgram = binary("checkerProgram").nullable()
+    }
+
+    class Assignment(id: EntityID<Int>) : IntEntity(id), AssignmentORM {
+        companion object : IntEntityClass<Assignment>(Assignments)
+
+        override var name by Assignments.name
+        override var taskText by Assignments.taskText
+        override var publicationTimestamp by Assignments.publicationTimestamp
+        override var deadlineTimestamp by Assignments.deadlineTimestamp
+        override var checkerProgram by Assignments.checkerProgram
+
+        override val _id by id::value
+    }
+
+    object Submissions : IntIdTable() {
+        val submissionTimestamp = timestamp("submissionTimestamp")
+        val submissionLink = text("submissionLink")
+
+        val assignmentId = reference("assignmentId", Assignments)
+        val checkResultId = reference("checkResultId", CheckResults).nullable()
+    }
+
+    object CheckResults : IntIdTable() {
+        val success = bool("success")
+        val output = text("output")
+    }
+
+    class CheckResult(id: EntityID<Int>) : IntEntity(id), CheckResultORM {
+        companion object : IntEntityClass<CheckResult>(CheckResults)
+
+        override var success by CheckResults.success
+        override var output by CheckResults.output
+
+        override val _id by id::value
+    }
+
+    class Submission(id: EntityID<Int>) : IntEntity(id), SubmissionORM {
+        companion object : IntEntityClass<Submission>(Submissions)
+
+        override var submissionTimestamp by Submissions.submissionTimestamp
+        override var submissionLink by Submissions.submissionLink
+
+        override var assignment by Assignment referencedOn Submissions.assignmentId
+        override var checkResult by CheckResult optionalReferencedOn Submissions.checkResultId
+
+        override val _id by id::value
+    }
 
     init {
-        // due to technicalities in-memory DB do not work
-        if (sourcePath == ":memory:") throw IllegalArgumentException("in-memory DB is not supported")
+        val url = if (sourcePath != null)
+            "jdbc:sqlite:$sourcePath"
+        else
+            "jdbc:sqlite:file:test?mode=memory&cache=shared"
 
-        val createAssignmentsTable = """
-            CREATE TABLE IF NOT EXISTS t_assignment (
-            name TEXT NOT NULL,
-            taskText TEXT NOT NULL,
-            publicationTimestamp TIMESTAMP NOT NULL,
-            deadlineTimestamp TIMESTAMP NOT NULL,
-            checkerProgram BYTES,
-            id INT PRIMARY KEY
-            );
-        """.trimIndent()
-        val createSubmissionsTable = """
-            CREATE TABLE IF NOT EXISTS t_submission (
-            submissionTimestamp TIMESTAMP NOT NULL,
-            submissionLink TEXT NOT NULL,
-            assignmentId INT REFERENCES t_assignment (id) NOT NULL,
-            checkResultId INT REFERENCES t_check_result (id) NOT NULL,
-            id INT PRIMARY KEY
-            );
-        """.trimIndent()
-        val createCheckResultsTable = """
-            CREATE TABLE IF NOT EXISTS t_check_result (
-            success BOOLEAN NOT NULL,
-            output TEXT NOT NULL,
-            id INT PRIMARY KEY
-            );
-        """.trimIndent()
-
-        val dataSource = SQLiteDataSource().apply {
-            url = "jdbc:sqlite:$sourcePath"
+        val source = SQLiteDataSource().apply {
+            this.url = url
         }
-        database = Database.connect(dataSource)
 
-        database.useConnection { connection ->
-            connection.createStatement().use {
-                it.execute(createAssignmentsTable)
-                it.execute(createCheckResultsTable)
-                it.execute(createSubmissionsTable)
-            }
+        Database.connect(source)
+
+        transaction {
+            SchemaUtils.create(Assignments, CheckResults, Submissions)
         }
     }
 
-    object Assignments : Table<Assignment>("t_assignment") {
-        val name = text("name").bindTo { it.name }
-        val taskText = text("taskText").bindTo { it.taskText }
-        val publicationTimestamp = timestamp("publicationTimestamp").bindTo { it.publicationTimestamp }
-        val deadlineTimestamp = timestamp("deadlineTimestamp").bindTo { it.deadlineTimestamp }
-        val checkerProgram = bytes("checkerProgram").bindTo { it.checkerProgram }
+    // ------------ interface implementation ------------
 
-        val id = int("id").primaryKey().bindTo { it.id }
+    override fun listSubmissions(): List<SubmissionORM> = transaction {
+        Submission
+            .all()
+            .sortedBy { it.submissionTimestamp }
     }
 
-    object Submissions : Table<Submission>("t_submission") {
-        val submissionTimestamp = timestamp("submissionTimestamp").bindTo { it.submissionTimestamp }
-        val submissionLink = text("submissionLink").bindTo { it.submissionLink }
-
-        val assignmentId = int("assignmentId").references(Assignments) { it.assignment }
-        val checkResultId = int("checkResultId").references(CheckResults) { it.checkResult }
-
-        val id = int("id").primaryKey().bindTo { it.id }
+    override fun listAssignments(): List<AssignmentORM> = transaction {
+        Assignment
+            .find { Assignments.publicationTimestamp greater Timestamp.now() }
+            .sortedBy { it.deadlineTimestamp }
     }
 
-    object CheckResults : Table<CheckResult>("t_check_result") {
-        val success = boolean("success").bindTo { it.success }
-        val output = text("output").bindTo { it.output }
-
-        val id = int("id").primaryKey().bindTo { it.id }
+    override fun getSubmission(id: Int): SubmissionORM? = transaction {
+        Submission
+            .findById(id)
     }
 
-    interface Assignment : AssignmentORM, Entity<Assignment> {
-        companion object : Entity.Factory<Assignment>()
+    override fun createSubmission(assignmentId: Int, submissionLink: String): Int = transaction {
+        Submission.new {
+            this.submissionTimestamp = Instant.now()
+            this.submissionLink = submissionLink
+
+            this.assignment = Assignment[assignmentId]
+            this.checkResult = null
+        }._id
     }
-
-    interface Submission : SubmissionORM, Entity<Submission> {
-        companion object : Entity.Factory<Submission>()
-
-        override val assignment: Assignment
-        override val checkResult: CheckResult
-    }
-
-    interface CheckResult : CheckResultORM, Entity<CheckResult> {
-        companion object : Entity.Factory<CheckResult>()
-    }
-
-    private val assignments get() = database.sequenceOf(Assignments)
-    private val submissions get() = database.sequenceOf(Submissions)
-    private val checkResults get() = database.sequenceOf(CheckResults)
-
-    override fun listSubmissions(): List<SubmissionORM> = submissions.toList()
-
-    override fun listAssignments(): List<AssignmentORM> = assignments.toList()
-
-    override fun getSubmission(id: Int): SubmissionORM? = submissions.firstOrNull { it.id eq id }
-
-    override fun createSubmission(assignmentId: Int, submissionLink: String): Int =
-        database.insertAndGenerateKey(Submissions) {
-            set(it.submissionTimestamp, Instant.now())
-            set(it.submissionLink, submissionLink)
-
-            set(it.assignmentId, assignmentId)
-            set(it.checkResultId, null)
-        } as Int
-    // TODO: error handling ? (foreign key)
+    // TODO: error handling ? (foreign key) ===> throws EntityNotFoundException
     // TODO: constraints - in tables?
 
     override fun createAssignment(
@@ -132,13 +128,15 @@ class SQLiteStorage(sourcePath: String) : Storage {
         publicationTimestamp: Timestamp,
         deadlineTimestamp: Timestamp,
         checker: CheckerProgram?
-    ): Int = database.insertAndGenerateKey(Assignments) {
-        set(it.name, name)
-        set(it.taskText, taskText)
-        set(it.publicationTimestamp, publicationTimestamp)
-        set(it.deadlineTimestamp, deadlineTimestamp)
-        set(it.checkerProgram, checker?.bytes)
-    } as Int
+    ): Int = transaction {
+        Assignment.new {
+            this.name = name
+            this.taskText = taskText
+            this.publicationTimestamp = publicationTimestamp
+            this.deadlineTimestamp = deadlineTimestamp
+            this.checkerProgram = checker?.bytes
+        }._id
+    }
     // TODO: constraints
 
 }

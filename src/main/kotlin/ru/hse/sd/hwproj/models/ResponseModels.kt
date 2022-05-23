@@ -28,7 +28,7 @@ sealed class GetSubmissionDetailsResponse : ResponseModel()
 @Serializable
 data class GetExistingSubmissionDetailsResponse(
     val submissionResponse: SubmissionResponse,
-    val checkResultResponse: CheckResultResponse
+    val checkResultResponse: CheckResultResponse?
 ) : GetSubmissionDetailsResponse()
 
 @Serializable
@@ -47,23 +47,23 @@ data class AssignmentResponse(
     constructor(assignmentORM: AssignmentORM) : this(
         assignmentORM.name,
         assignmentORM.deadlineTimestamp,
-        assignmentORM.id
+        assignmentORM._id
     )
 
 }
 
 @Serializable
 data class SubmissionResponse(
-    val success: Boolean,
+    val success: Boolean?,
     val assignmentName: String,
     val id: Int,
     val timestamp: Timestamp
 ) {
 
     constructor(submissionORM: SubmissionORM) : this(
-        submissionORM.checkResult.success,
+        submissionORM.checkResult?.success,
         submissionORM.assignment.name,
-        submissionORM.id,
+        submissionORM._id,
         submissionORM.submissionTimestamp
     )
 

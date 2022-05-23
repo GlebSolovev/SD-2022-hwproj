@@ -30,7 +30,7 @@ interface AssignmentORM {
     val deadlineTimestamp: Timestamp
     val checkerProgram: ByteArray?
 
-    val id: Int
+    val _id: Int
 }
 
 interface SubmissionORM {
@@ -38,14 +38,14 @@ interface SubmissionORM {
     val submissionLink: String
 
     val assignment: AssignmentORM
-    val checkResult: CheckResultORM
+    val checkResult: CheckResultORM?
 
-    val id: Int
+    val _id: Int
 }
 
 interface CheckResultORM {
     val success: Boolean
     val output: String
 
-    val id: Int
+    val _id: Int
 }
