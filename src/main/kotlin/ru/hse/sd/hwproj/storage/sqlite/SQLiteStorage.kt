@@ -8,6 +8,7 @@ import org.ktorm.entity.firstOrNull
 import org.ktorm.entity.sequenceOf
 import org.ktorm.entity.toList
 import org.ktorm.schema.*
+import org.sqlite.SQLiteDataSource
 import ru.hse.sd.hwproj.storage.AssignmentORM
 import ru.hse.sd.hwproj.storage.CheckResultORM
 import ru.hse.sd.hwproj.storage.Storage
@@ -16,11 +17,14 @@ import ru.hse.sd.hwproj.utils.CheckerProgram
 import ru.hse.sd.hwproj.utils.Timestamp
 import java.time.Instant
 
-class SQLiteStorage : Storage {
+class SQLiteStorage(sourceUrl: String) : Storage {
 
     private val database: Database
 
     init {
+        // due to technicalities in-memory DB do not work
+        if (sourceUrl == "jdbc:sqlite::memory:") throw IllegalArgumentException("in-memory DB is not supported")
+
         val createAssignmentsTable = """
             CREATE TABLE IF NOT EXISTS t_assignment (
             name TEXT NOT NULL,
@@ -48,7 +52,10 @@ class SQLiteStorage : Storage {
             );
         """.trimIndent()
 
-        database = Database.connect("jdbc:sqlite:temp/test.db")
+        val dataSource = SQLiteDataSource().apply {
+            url = sourceUrl
+        }
+        database = Database.connect(dataSource)
 
         database.useConnection { connection ->
             connection.createStatement().use {
