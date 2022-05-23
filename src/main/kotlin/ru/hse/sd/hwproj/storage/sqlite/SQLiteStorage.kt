@@ -9,6 +9,7 @@ import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.javatime.timestamp
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.sqlite.SQLiteDataSource
+import ru.hse.sd.hwproj.exceptions.NoSuchSubmission
 import ru.hse.sd.hwproj.storage.AssignmentORM
 import ru.hse.sd.hwproj.storage.CheckResultORM
 import ru.hse.sd.hwproj.storage.Storage
@@ -93,22 +94,31 @@ class SQLiteStorage(sourcePath: String?) : Storage {
 
     // ------------ interface implementation ------------
 
+    // accessing Assignment outside of transaction throws
+    // TODO: avoid this somehow?..
+    private fun submissionConverter(s: Submission) = object : SubmissionORM by s {
+        override val assignment = s.assignment
+        override val checkResult = s.checkResult
+    }
+
     override fun listSubmissions(): List<SubmissionORM> = transaction {
         Submission
             .all()
             .sortedBy { it.submissionTimestamp }
+            .map(::submissionConverter)
     }
 
     override fun listAssignments(): List<AssignmentORM> = transaction {
         Assignment
-            .find { Assignments.publicationTimestamp greater Timestamp.now() }
+            .find { Assignments.publicationTimestamp less Timestamp.now() }
             .sortedBy { it.deadlineTimestamp }
     }
 
-    override fun getSubmission(id: Int): SubmissionORM? = transaction {
+    override fun getSubmission(id: Int): SubmissionORM = transaction {
         Submission
             .findById(id)
-    }
+            ?.let { submissionConverter(it) }
+    } ?: throw NoSuchSubmission(id)
 
     override fun createSubmission(assignmentId: Int, submissionLink: String): Int = transaction {
         Submission.new {
@@ -120,7 +130,7 @@ class SQLiteStorage(sourcePath: String?) : Storage {
         }._id
     }
     // TODO: error handling ? (foreign key) ===> throws EntityNotFoundException
-    // TODO: constraints - in tables?
+    // TODO: constraints - in tables? ===> maybe not, let checkerProgram handle it
 
     override fun createAssignment(
         name: String,
@@ -137,6 +147,5 @@ class SQLiteStorage(sourcePath: String?) : Storage {
             this.checkerProgram = checker?.bytes
         }._id
     }
-    // TODO: constraints
 
 }

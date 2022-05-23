@@ -45,7 +45,7 @@ fun Route.routeREST(interactor: Interactor) {
 
         route("/submissions") {
             get {
-                call.respond(interactor.handleRequest(ListSubmissionsRequest()) as ListAssignmentsResponse)
+                call.respond(interactor.handleRequest(ListSubmissionsRequest()) as ListSubmissionsResponse)
             }
             post {
                 val request = call.receive<SubmitSubmissionRequest>()

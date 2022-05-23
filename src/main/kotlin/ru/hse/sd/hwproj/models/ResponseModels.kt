@@ -23,16 +23,10 @@ data class SubmitSubmissionResponse(val submissionId: Int) : ResponseModel()
 data class ListSubmissionsResponse(val submissions: List<SubmissionResponse>) : ResponseModel()
 
 @Serializable
-sealed class GetSubmissionDetailsResponse : ResponseModel()
-
-@Serializable
-data class GetExistingSubmissionDetailsResponse(
+data class GetSubmissionDetailsResponse(
     val submissionResponse: SubmissionResponse,
     val checkResultResponse: CheckResultResponse?
-) : GetSubmissionDetailsResponse()
-
-@Serializable
-object GetAbsentSubmissionDetailsResponse : GetSubmissionDetailsResponse()
+) : ResponseModel()
 
 @Serializable
 data class CreateAssignmentResponse(val assignmentId: Int) : ResponseModel()

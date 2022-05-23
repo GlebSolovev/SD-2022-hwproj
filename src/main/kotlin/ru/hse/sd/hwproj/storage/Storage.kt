@@ -9,7 +9,7 @@ interface Storage {
 
     fun listAssignments(): List<AssignmentORM>
 
-    fun getSubmission(id: Int): SubmissionORM?
+    fun getSubmission(id: Int): SubmissionORM
 
     fun createSubmission(assignmentId: Int, submissionLink: String): Int
 
