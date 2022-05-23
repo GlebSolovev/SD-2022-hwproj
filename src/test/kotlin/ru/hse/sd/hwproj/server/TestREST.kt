@@ -215,4 +215,24 @@ class TestREST {
         assertTrue { t1 < t2 }
     }
 
+    @Test
+    fun testNoSuchSubmission() = testApplication {
+        val client = doSetup()
+
+        assertEquals(HttpStatusCode.NotFound, client.get("/api/submissions/5").call.response.status)
+    }
+
+    @Test
+    fun testSubmissionToNonexistentAssignment() = testApplication {
+        val client = doSetup()
+
+        assertEquals(
+            HttpStatusCode.BadRequest,
+            client.post("/api/submissions") {
+                contentType(ContentType.Application.Json)
+                setBody(SubmitSubmissionRequest(5, "hehe://haha.hoho"))
+            }.status
+        )
+    }
+
 }

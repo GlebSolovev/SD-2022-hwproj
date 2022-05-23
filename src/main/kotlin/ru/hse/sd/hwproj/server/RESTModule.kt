@@ -8,6 +8,7 @@ import io.ktor.server.plugins.statuspages.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import org.jetbrains.exposed.dao.exceptions.EntityNotFoundException
 import ru.hse.sd.hwproj.exceptions.NoSuchAssignment
 import ru.hse.sd.hwproj.exceptions.NoSuchSubmission
 import ru.hse.sd.hwproj.interactor.Interactor
@@ -27,6 +28,7 @@ fun Application.createRESTModule(interactor: Interactor) {
         wrapper<NoSuchAssignment>(HttpStatusCode.NotFound)
         wrapper<NoSuchSubmission>(HttpStatusCode.NotFound)
         wrapper<NumberFormatException>(HttpStatusCode.BadRequest)
+        wrapper<EntityNotFoundException>(HttpStatusCode.BadRequest)
     }
 }
 
