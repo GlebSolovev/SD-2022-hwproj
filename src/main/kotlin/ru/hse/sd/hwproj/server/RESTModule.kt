@@ -35,25 +35,25 @@ fun Route.routeREST(interactor: Interactor) {
 
         route("/assignments") {
             get {
-                call.respond(interactor.handleRequest(ListAssignmentsRequest()))
+                call.respond(interactor.handleRequest(ListAssignmentsRequest()) as ListAssignmentsResponse)
             }
             post {
                 val request = call.receive<CreateAssignmentRequest>()
-                call.respond(interactor.handleRequest(request))
+                call.respond(interactor.handleRequest(request) as CreateAssignmentResponse)
             }
         }
 
         route("/submissions") {
             get {
-                call.respond(interactor.handleRequest(ListSubmissionsRequest()))
+                call.respond(interactor.handleRequest(ListSubmissionsRequest()) as ListAssignmentsResponse)
             }
             post {
                 val request = call.receive<SubmitSubmissionRequest>()
-                call.respond(interactor.handleRequest(request))
+                call.respond(interactor.handleRequest(request) as SubmitSubmissionResponse)
             }
             get("/{id}") {
                 val id = call.parameters["id"]!!.toInt()
-                call.respond(interactor.handleRequest(GetSubmissionDetailsRequest(id)))
+                call.respond(interactor.handleRequest(GetSubmissionDetailsRequest(id)) as GetSubmissionDetailsResponse)
             }
         }
     }

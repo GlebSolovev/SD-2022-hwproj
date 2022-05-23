@@ -28,6 +28,8 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:1.2.11")
 
     testImplementation(kotlin("test"))
+    testImplementation("io.ktor:ktor-server-test-host:$ktorVersion")
+    testImplementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
 }
 
 tasks.test {

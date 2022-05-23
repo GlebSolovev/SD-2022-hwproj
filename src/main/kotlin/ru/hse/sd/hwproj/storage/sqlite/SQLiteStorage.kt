@@ -3,10 +3,7 @@ package ru.hse.sd.hwproj.storage.sqlite
 import org.ktorm.database.Database
 import org.ktorm.dsl.eq
 import org.ktorm.dsl.insertAndGenerateKey
-import org.ktorm.entity.Entity
-import org.ktorm.entity.firstOrNull
-import org.ktorm.entity.sequenceOf
-import org.ktorm.entity.toList
+import org.ktorm.entity.*
 import org.ktorm.schema.*
 import org.sqlite.SQLiteDataSource
 import ru.hse.sd.hwproj.storage.AssignmentORM
@@ -93,20 +90,30 @@ class SQLiteStorage(sourcePath: String) : Storage {
         val id = int("id").primaryKey().bindTo { it.id }
     }
 
-    interface Assignment : AssignmentORM, Entity<Assignment>
+    interface Assignment : AssignmentORM, Entity<Assignment> {
+        companion object : Entity.Factory<Assignment>()
+    }
 
     interface Submission : SubmissionORM, Entity<Submission> {
+        companion object : Entity.Factory<Submission>()
+
         override val assignment: Assignment
         override val checkResult: CheckResult
     }
 
-    interface CheckResult : CheckResultORM, Entity<CheckResult>
+    interface CheckResult : CheckResultORM, Entity<CheckResult> {
+        companion object : Entity.Factory<CheckResult>()
+    }
 
-    override fun listSubmissions(): List<SubmissionORM> = database.sequenceOf(Submissions).toList()
+    private val assignments get() = database.sequenceOf(Assignments)
+    private val submissions get() = database.sequenceOf(Submissions)
+    private val checkResults get() = database.sequenceOf(CheckResults)
 
-    override fun listAssignments(): List<AssignmentORM> = database.sequenceOf(Assignments).toList()
+    override fun listSubmissions(): List<SubmissionORM> = submissions.toList()
 
-    override fun getSubmission(id: Int): SubmissionORM? = database.sequenceOf(Submissions).firstOrNull { it.id eq id }
+    override fun listAssignments(): List<AssignmentORM> = assignments.toList()
+
+    override fun getSubmission(id: Int): SubmissionORM? = submissions.firstOrNull { it.id eq id }
 
     override fun createSubmission(assignmentId: Int, submissionLink: String): Int =
         database.insertAndGenerateKey(Submissions) {
