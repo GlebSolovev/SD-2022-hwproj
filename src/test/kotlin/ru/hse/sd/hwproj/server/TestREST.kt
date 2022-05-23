@@ -9,6 +9,7 @@ import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.request.*
 import io.ktor.http.*
 import io.ktor.server.testing.*
+import kotlinx.coroutines.delay
 
 import kotlin.io.path.createTempDirectory
 import kotlin.test.BeforeTest
@@ -24,6 +25,7 @@ import ru.hse.sd.hwproj.utils.TimestampSerializer
 
 import kotlinx.serialization.UseSerializers
 import ru.hse.sd.hwproj.models.*
+import kotlin.test.assertTrue
 
 class TestREST {
 
@@ -103,6 +105,36 @@ class TestREST {
     }
 
     @Test
+    fun testAssignmentsSorted() = testApplication {
+        val client = doSetup()
+        val t1 = Timestamp.parse("2020-01-01T00:00:00.00Z")
+        val t2 = Timestamp.parse("2030-01-01T00:00:00.00Z")
+        fun createRequest(t: Timestamp) = CreateAssignmentRequest(
+            sampleName,
+            sampleDescription,
+            sampleOldTimestamp,
+            t,
+            null
+        )
+
+        client.post("/api/assignments") {
+            contentType(ContentType.Application.Json)
+            setBody(createRequest(t2))
+        }
+        client.post("/api/assignments") {
+            contentType(ContentType.Application.Json)
+            setBody(createRequest(t1))
+        }
+
+        val deadlines = client
+            .get("/api/assignments")
+            .call.body<ListAssignmentsResponse>()
+            .assignments
+            .map { it.deadlineTimestamp }
+        assertEquals(listOf(t1, t2), deadlines)
+    }
+
+    @Test
     fun testSubmissions() = testApplication {
         val client = doSetup()
 
@@ -145,6 +177,42 @@ class TestREST {
         assertEquals(null, respModel5.checkResultResponse)
         val submResp5 = respModel5.submissionResponse
         assertEquals(submResp4, submResp5)
+    }
+
+    @Test
+    fun testSubmissionsSorted() = testApplication {
+        val client = doSetup()
+
+        val assignmentId = client.post("/api/assignments") {
+            contentType(ContentType.Application.Json)
+            setBody(
+                CreateAssignmentRequest(
+                    sampleName,
+                    sampleDescription,
+                    sampleOldTimestamp,
+                    sampleFutureTimestamp,
+                    null
+                )
+            )
+        }.body<CreateAssignmentResponse>().assignmentId
+
+        suspend fun submitSubmission() = client.post("/api/submissions") {
+            contentType(ContentType.Application.Json)
+            setBody(SubmitSubmissionRequest(assignmentId, "http://sample.link"))
+        }
+
+        submitSubmission()
+        delay(100)
+        submitSubmission()
+
+        val timestamps = client
+            .get("/api/submissions")
+            .call.body<ListSubmissionsResponse>()
+            .submissions
+            .map { it.timestamp }
+        assertEquals(2, timestamps.size)
+        val (t1, t2) = timestamps
+        assertTrue { t1 < t2 }
     }
 
 }
