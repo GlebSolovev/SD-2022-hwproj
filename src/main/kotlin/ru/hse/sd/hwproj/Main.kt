@@ -6,7 +6,7 @@ import ru.hse.sd.hwproj.server.createServer
 import ru.hse.sd.hwproj.storage.sqlite.SQLiteStorage
 
 fun main() {
-    val storage = SQLiteStorage("jdbc:sqlite:temp/test.db")
+    val storage = SQLiteStorage("temp/test.db")
 
     val entityGateway = EntityGateway(storage)
     val interactor = Interactor(entityGateway)

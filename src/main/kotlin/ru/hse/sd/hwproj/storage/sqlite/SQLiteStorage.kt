@@ -17,13 +17,13 @@ import ru.hse.sd.hwproj.utils.CheckerProgram
 import ru.hse.sd.hwproj.utils.Timestamp
 import java.time.Instant
 
-class SQLiteStorage(sourceUrl: String) : Storage {
+class SQLiteStorage(sourcePath: String) : Storage {
 
     private val database: Database
 
     init {
         // due to technicalities in-memory DB do not work
-        if (sourceUrl == "jdbc:sqlite::memory:") throw IllegalArgumentException("in-memory DB is not supported")
+        if (sourcePath == ":memory:") throw IllegalArgumentException("in-memory DB is not supported")
 
         val createAssignmentsTable = """
             CREATE TABLE IF NOT EXISTS t_assignment (
@@ -53,7 +53,7 @@ class SQLiteStorage(sourceUrl: String) : Storage {
         """.trimIndent()
 
         val dataSource = SQLiteDataSource().apply {
-            url = sourceUrl
+            url = "jdbc:sqlite:$sourcePath"
         }
         database = Database.connect(dataSource)
 
