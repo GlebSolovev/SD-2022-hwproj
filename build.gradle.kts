@@ -31,6 +31,10 @@ dependencies {
     implementation("io.ktor:ktor-server-call-logging:$ktorVersion")
     implementation("ch.qos.logback:logback-classic:1.2.11")
 
+    implementation("io.ktor:ktor-server-caching-headers:$ktorVersion")
+
+    implementation("io.ktor:ktor-server-html-builder:$ktorVersion")
+
     testImplementation(kotlin("test"))
     testImplementation("io.ktor:ktor-server-test-host:$ktorVersion")
     testImplementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")

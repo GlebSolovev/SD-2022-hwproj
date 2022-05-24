@@ -46,7 +46,7 @@ class TestREST {
 
     private fun ApplicationTestBuilder.doSetup(): HttpClient {
         application {
-            createRESTModule(Interactor(EntityGateway(storage)))
+            addRESTModule(Interactor(EntityGateway(storage)))
         }
         return createClient {
             this@createClient.install(ContentNegotiation) {

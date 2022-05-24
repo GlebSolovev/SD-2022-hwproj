@@ -6,8 +6,16 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import java.time.Instant
+import java.time.format.DateTimeFormatter
+import java.util.*
 
 typealias Timestamp = Instant
+
+private val timestampFormatter = DateTimeFormatter
+    .ofPattern("dd.MM.yyyy HH:mm:ss")
+    .withZone(TimeZone.getDefault().toZoneId())
+
+fun Timestamp.formatToString(): String = timestampFormatter.format(this)
 
 @Serializable
 @SerialName("Timestamp")
