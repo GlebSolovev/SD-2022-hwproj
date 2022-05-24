@@ -17,7 +17,6 @@ fun Application.addRESTModule(interactor: Interactor) {
             }
             routeREST(interactor)
         }
-
     }
 }
 

@@ -5,6 +5,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
+import java.text.SimpleDateFormat
 import java.time.Instant
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -34,6 +35,10 @@ class TimestampSerializer : KSerializer<Timestamp> {
         return Instant.ofEpochSecond(surrogate.epochSecond, surrogate.nano.toLong())
     }
 }
+
+private val timestampHTMLFormat = SimpleDateFormat("yyyy-MM-dd'T'hh:mm")
+
+fun parseHTMLTimestamp(s: String): Timestamp = timestampHTMLFormat.parse(s).toInstant()
 
 @Serializable
 data class CheckerProgram(val bytes: ByteArray) {
