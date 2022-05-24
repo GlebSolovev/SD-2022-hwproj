@@ -98,3 +98,16 @@ fun HTML.makeTeacherAssignmentDetailsPage(response: GetAssignmentDetailsResponse
         }
     }
 }
+
+fun HTML.makeTeacherLandingPage() {
+    head {
+        title("HwProj")
+    }
+    body {
+        h1 {
+            +"Teacher mode"
+        }
+        div { a(href = "/teacher/assignments") { +"See assignments list" } }
+        div { a(href = "/teacher/submissions") { +"See submissions list" } }
+    }
+}

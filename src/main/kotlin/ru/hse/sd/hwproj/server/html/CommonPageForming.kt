@@ -69,3 +69,14 @@ fun DIV.assignmentDetails(details: GetAssignmentDetailsResponse) {
         }
     }
 }
+
+fun HTML.makeWelcomePage() {
+    head {
+        title("HwProj")
+    }
+    body {
+        h1 { +"Welcome to HwProj!" }
+        div { a(href = "/student") { +"Continue as student" } }
+        div { a(href = "/teacher") { +"Continue as teacher" } }
+    }
+}

@@ -80,3 +80,16 @@ fun HTML.makeStudentSubmittedSubmissionPage(response: SubmitSubmissionResponse) 
         }
     }
 }
+
+fun HTML.makeStudentLandingPage() {
+    head {
+        title("HwProj")
+    }
+    body {
+        h1 {
+            +"Student mode"
+        }
+        div { a(href = "/student/assignments") { +"See assignments list" } }
+        div { a(href = "/student/submissions") { +"See submissions list" } }
+    }
+}

@@ -13,6 +13,7 @@ import ru.hse.sd.hwproj.exceptions.InvalidFormException
 import ru.hse.sd.hwproj.exceptions.NoSuchAssignment
 import ru.hse.sd.hwproj.exceptions.NoSuchSubmission
 import ru.hse.sd.hwproj.interactor.Interactor
+import ru.hse.sd.hwproj.server.html.addLandingHTMLModule
 import ru.hse.sd.hwproj.server.html.student.addStudentHTMLModule
 import ru.hse.sd.hwproj.server.html.teacher.addTeacherHTMLModule
 import ru.hse.sd.hwproj.utils.wrapper
@@ -27,6 +28,7 @@ fun createServer(interactor: Interactor) = embeddedServer(Netty, port = 8080) {
     addRESTModule(interactor)
     addStudentHTMLModule(interactor)
     addTeacherHTMLModule(interactor)
+    addLandingHTMLModule()
 }
 
 fun Application.installStatusPages() {
