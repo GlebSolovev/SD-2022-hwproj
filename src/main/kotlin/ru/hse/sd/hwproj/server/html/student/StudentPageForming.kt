@@ -5,13 +5,12 @@ import ru.hse.sd.hwproj.models.GetAssignmentDetailsResponse
 import ru.hse.sd.hwproj.models.ListAssignmentsResponse
 import ru.hse.sd.hwproj.models.SubmitSubmissionResponse
 import ru.hse.sd.hwproj.server.html.assignmentDetails
+import ru.hse.sd.hwproj.server.html.customHead
 import ru.hse.sd.hwproj.utils.formatToString
 
 fun HTML.makeStudentAssignmentsPage(response: ListAssignmentsResponse) {
     val assignments = response.assignments
-    head {
-        title("HwProj")
-    }
+    customHead {  }
     body {
         h1 {
             +"Assignments list"
@@ -36,9 +35,7 @@ fun HTML.makeStudentAssignmentsPage(response: ListAssignmentsResponse) {
 }
 
 fun HTML.makeStudentAssignmentDetailsPage(response: GetAssignmentDetailsResponse) {
-    head {
-        title("HwProj")
-    }
+    customHead {  }
     body {
         h1 {
             +"Details for assignment #${response.id}"
@@ -65,9 +62,7 @@ fun HTML.makeStudentAssignmentDetailsPage(response: GetAssignmentDetailsResponse
 }
 
 fun HTML.makeStudentSubmittedSubmissionPage(response: SubmitSubmissionResponse) {
-    head {
-        title("HwProj")
-    }
+    customHead {  }
     body {
         h1 {
             +"Created new submission"
@@ -82,9 +77,7 @@ fun HTML.makeStudentSubmittedSubmissionPage(response: SubmitSubmissionResponse) 
 }
 
 fun HTML.makeStudentLandingPage() {
-    head {
-        title("HwProj")
-    }
+    customHead {  }
     body {
         h1 {
             +"Student mode"

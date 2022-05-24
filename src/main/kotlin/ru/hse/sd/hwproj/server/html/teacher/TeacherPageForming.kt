@@ -5,13 +5,12 @@ import ru.hse.sd.hwproj.models.CreateAssignmentResponse
 import ru.hse.sd.hwproj.models.GetAssignmentDetailsResponse
 import ru.hse.sd.hwproj.models.ListAssignmentsResponse
 import ru.hse.sd.hwproj.server.html.assignmentDetails
+import ru.hse.sd.hwproj.server.html.customHead
 import ru.hse.sd.hwproj.utils.formatToString
 
 fun HTML.makeTeacherAssignmentsPage(response: ListAssignmentsResponse) {
     val assignments = response.assignments
-    head {
-        title("HwProj")
-    }
+    customHead {  }
     body {
         h1 { +"Assignments" }
         div { a(href = "/teacher/assignments/new") { +"Create new assignment" } }
@@ -35,9 +34,7 @@ fun HTML.makeTeacherAssignmentsPage(response: ListAssignmentsResponse) {
 }
 
 fun HTML.makeTeacherNewAssignmentPage() {
-    head {
-        title("HwProj")
-    }
+    customHead {  }
     body {
         h1 { +"Creating new assignment" }
         div {
@@ -75,9 +72,7 @@ fun HTML.makeTeacherNewAssignmentPage() {
 }
 
 fun HTML.makeTeacherCreatedAssignmentPage(response: CreateAssignmentResponse) {
-    head {
-        title("HwProj")
-    }
+    customHead {  }
     body {
         h1 { +"Creating new assignment" }
         div { +"Successfully created new assignment with id #${response.assignmentId}" }
@@ -86,9 +81,7 @@ fun HTML.makeTeacherCreatedAssignmentPage(response: CreateAssignmentResponse) {
 }
 
 fun HTML.makeTeacherAssignmentDetailsPage(response: GetAssignmentDetailsResponse) {
-    head {
-        title("HwProj")
-    }
+    customHead {  }
     body {
         h1 {
             +"Details for assignment #${response.id}"
@@ -100,9 +93,7 @@ fun HTML.makeTeacherAssignmentDetailsPage(response: GetAssignmentDetailsResponse
 }
 
 fun HTML.makeTeacherLandingPage() {
-    head {
-        title("HwProj")
-    }
+    customHead {  }
     body {
         h1 {
             +"Teacher mode"

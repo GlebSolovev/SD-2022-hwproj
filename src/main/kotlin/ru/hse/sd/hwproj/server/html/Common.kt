@@ -4,6 +4,19 @@ import kotlinx.html.*
 import ru.hse.sd.hwproj.models.*
 import ru.hse.sd.hwproj.utils.formatToString
 
+fun HTML.customHead(block: HEAD.() -> Unit) {
+    head {
+        title("HwProj")
+        meta { charset = "utf-8" } // crucial for correct checker uploading
+        meta{
+            name = "viewport"
+            content = "width=device-width, initial-scale=1"
+        }
+
+        block()
+    }
+}
+
 fun DIV.submissionsTable(submissions: List<SubmissionResponse>) {
     table {
         tr {
@@ -25,9 +38,7 @@ fun DIV.submissionsTable(submissions: List<SubmissionResponse>) {
 
 fun HTML.makeListSubmissionsPage(response: ListSubmissionsResponse) {
     val submissions = response.submissions
-    head {
-        title("HwProj")
-    }
+    customHead { }
     body {
         h1 { +"Submissions list" }
         div {
@@ -40,9 +51,7 @@ fun HTML.makeSubmissionDetailsPage(response: GetSubmissionDetailsResponse) {
     val submission = response.submissionResponse
     val checkResult = response.checkResultResponse
 
-    head {
-        title("HwProj")
-    }
+    customHead { }
     body {
         h1 { +"Details for submission #${submission.id}" }
         div {
@@ -71,9 +80,7 @@ fun DIV.assignmentDetails(details: GetAssignmentDetailsResponse) {
 }
 
 fun HTML.makeWelcomePage() {
-    head {
-        title("HwProj")
-    }
+    customHead { }
     body {
         h1 { +"Welcome to HwProj!" }
         div { a(href = "/student") { +"Continue as student" } }
