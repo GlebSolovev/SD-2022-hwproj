@@ -19,6 +19,12 @@ fun Application.addTeacherHTMLModule(interactor: Interactor) {
                 val response = interactor.handleRequest(request) as ListAssignmentsResponse
                 call.respondHtml { makeTeacherAssignmentsPage(response) }
             }
+            get("/assignments/{id}") {
+                val id = call.parameters["id"]!!.toInt()
+                val request = GetAssignmentDetailsRequest(id)
+                val response = interactor.handleRequest(request) as GetAssignmentDetailsResponse
+                call.respondHtml { makeTeacherAssignmentDetailsPage(response) }
+            }
             route("/assignments/new") {
                 get {
                     call.respondHtml { makeTeacherNewAssignmentPage() }

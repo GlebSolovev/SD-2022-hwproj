@@ -9,6 +9,7 @@ import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.javatime.timestamp
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.sqlite.SQLiteDataSource
+import ru.hse.sd.hwproj.exceptions.NoSuchAssignment
 import ru.hse.sd.hwproj.exceptions.NoSuchSubmission
 import ru.hse.sd.hwproj.storage.AssignmentORM
 import ru.hse.sd.hwproj.storage.CheckResultORM
@@ -147,5 +148,9 @@ class SQLiteStorage(sourcePath: String?) : Storage {
             this.checkerProgram = checker?.bytes
         }._id
     }
+
+    override fun getAssignment(id: Int): AssignmentORM = transaction {
+        Assignment.findById(id)
+    } ?: throw NoSuchAssignment(id)
 
 }

@@ -22,6 +22,14 @@ fun createServer(interactor: Interactor) = embeddedServer(Netty, port = 8080) {
         level = Level.INFO
     }
 
+    installStatusPages()
+
+    addRESTModule(interactor)
+    addStudentHTMLModule(interactor)
+    addTeacherHTMLModule(interactor)
+}
+
+fun Application.installStatusPages() {
     install(StatusPages) {
         wrapper<NoSuchAssignment>(HttpStatusCode.NotFound)
         wrapper<NoSuchSubmission>(HttpStatusCode.NotFound)
@@ -30,8 +38,4 @@ fun createServer(interactor: Interactor) = embeddedServer(Netty, port = 8080) {
         wrapper<SerializationException>(HttpStatusCode.BadRequest)
         wrapper<InvalidFormException>(HttpStatusCode.BadRequest)
     }
-
-    addRESTModule(interactor)
-    addStudentHTMLModule(interactor)
-    addTeacherHTMLModule(interactor)
 }

@@ -4,27 +4,24 @@ package ru.hse.sd.hwproj.server
 
 import io.ktor.client.*
 import io.ktor.client.call.*
-import io.ktor.serialization.kotlinx.json.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.request.*
 import io.ktor.http.*
+import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.testing.*
 import kotlinx.coroutines.delay
-
-import kotlin.io.path.createTempDirectory
-import kotlin.test.BeforeTest
-import kotlin.test.Test
-import kotlin.test.assertEquals
-
+import kotlinx.serialization.UseSerializers
 import ru.hse.sd.hwproj.interactor.EntityGateway
 import ru.hse.sd.hwproj.interactor.Interactor
+import ru.hse.sd.hwproj.models.*
 import ru.hse.sd.hwproj.storage.sqlite.SQLiteStorage
 import ru.hse.sd.hwproj.utils.CheckerProgram
 import ru.hse.sd.hwproj.utils.Timestamp
 import ru.hse.sd.hwproj.utils.TimestampSerializer
-
-import kotlinx.serialization.UseSerializers
-import ru.hse.sd.hwproj.models.*
+import kotlin.io.path.createTempDirectory
+import kotlin.test.BeforeTest
+import kotlin.test.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 class TestREST {
@@ -46,6 +43,7 @@ class TestREST {
 
     private fun ApplicationTestBuilder.doSetup(): HttpClient {
         application {
+            installStatusPages()
             addRESTModule(Interactor(EntityGateway(storage)))
         }
         return createClient {
@@ -75,13 +73,24 @@ class TestREST {
             setBody(reqModel2)
         }
         val respModel2 = resp2.call.body<CreateAssignmentResponse>()
+        val assignmentId = respModel2.assignmentId
 
         val resp3 = client.get("/api/assignments")
         val respModel3 = resp3.call.body<ListAssignmentsResponse>()
         assertEquals(
-            listOf(AssignmentResponse(sampleName, sampleOldTimestamp, respModel2.assignmentId)),
+            listOf(AssignmentResponse(sampleName, sampleOldTimestamp, assignmentId)),
             respModel3.assignments
         )
+
+        val resp4 = client.get("/api/assignments/$assignmentId")
+        val respModel4 = resp4.call.body<GetAssignmentDetailsResponse>()
+        respModel4.let { (name, text, publication, deadline, id) ->
+            assertEquals(sampleName, name)
+            assertEquals(sampleDescription, text)
+            assertEquals(sampleOldTimestamp, publication)
+            assertEquals(sampleOldTimestamp, deadline)
+            assertEquals(assignmentId, id)
+        }
     }
 
     @Test

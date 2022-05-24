@@ -2,8 +2,10 @@ package ru.hse.sd.hwproj.server.html.teacher
 
 import kotlinx.html.*
 import ru.hse.sd.hwproj.models.CreateAssignmentResponse
+import ru.hse.sd.hwproj.models.GetAssignmentDetailsResponse
 import ru.hse.sd.hwproj.models.ListAssignmentsResponse
-import ru.hse.sd.hwproj.server.html.assignmentsTable
+import ru.hse.sd.hwproj.server.html.assignmentDetails
+import ru.hse.sd.hwproj.utils.formatToString
 
 fun HTML.makeTeacherAssignmentsPage(response: ListAssignmentsResponse) {
     val assignments = response.assignments
@@ -13,7 +15,22 @@ fun HTML.makeTeacherAssignmentsPage(response: ListAssignmentsResponse) {
     body {
         h1 { +"Assignments" }
         div { a(href = "/teacher/assignments/new") { +"Create new assignment" } }
-        div { assignmentsTable(assignments) }
+        div {
+            table {
+                tr {
+                    th { +"Assignment name" }
+                    th { +"Deadline" }
+                    th { } // link to details
+                }
+                for ((name, deadline, id) in assignments) {
+                    tr {
+                        td { +name }
+                        td { +deadline.formatToString() }
+                        td { a(href = "/teacher/assignments/$id") { +"See details" } }
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -65,5 +82,19 @@ fun HTML.makeTeacherCreatedAssignmentPage(response: CreateAssignmentResponse) {
         h1 { +"Creating new assignment" }
         div { +"Successfully created new assignment with id #${response.assignmentId}" }
         div { a(href = "/teacher/assignments") { +"Back to assignments list" } }
+    }
+}
+
+fun HTML.makeTeacherAssignmentDetailsPage(response: GetAssignmentDetailsResponse) {
+    head {
+        title("HwProj")
+    }
+    body {
+        h1 {
+            +"Details for assignment #${response.id}"
+        }
+        div {
+            assignmentDetails(response)
+        }
     }
 }

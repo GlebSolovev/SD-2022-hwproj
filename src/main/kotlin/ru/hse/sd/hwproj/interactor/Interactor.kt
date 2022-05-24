@@ -10,6 +10,7 @@ class Interactor(private val entityGateway: EntityGateway) {
         is ListAssignmentsRequest -> entityGateway.listAssignments.execute(request)
         is ListSubmissionsRequest -> entityGateway.listSubmissions.execute(request)
         is SubmitSubmissionRequest -> entityGateway.submitSubmission.execute(request)
+        is GetAssignmentDetailsRequest -> entityGateway.getAssignmentDetails.execute(request)
     }
 
 }

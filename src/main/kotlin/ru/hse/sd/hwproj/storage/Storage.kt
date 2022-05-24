@@ -11,6 +11,8 @@ interface Storage {
 
     fun getSubmission(id: Int): SubmissionORM
 
+    fun getAssignment(id: Int): AssignmentORM
+
     fun createSubmission(assignmentId: Int, submissionLink: String): Int
 
     fun createAssignment(

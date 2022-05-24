@@ -29,6 +29,10 @@ fun Route.routeREST(interactor: Interactor) {
             val request = call.receive<CreateAssignmentRequest>()
             call.respond(interactor.handleRequest(request) as CreateAssignmentResponse)
         }
+        get("/{id}") {
+            val id = call.parameters["id"]!!.toInt()
+            call.respond(interactor.handleRequest(GetAssignmentDetailsRequest(id)) as GetAssignmentDetailsResponse)
+        }
     }
 
     route("/submissions") {

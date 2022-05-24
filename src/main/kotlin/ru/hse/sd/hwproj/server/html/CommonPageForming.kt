@@ -1,26 +1,8 @@
 package ru.hse.sd.hwproj.server.html
 
 import kotlinx.html.*
-import ru.hse.sd.hwproj.models.AssignmentResponse
-import ru.hse.sd.hwproj.models.GetSubmissionDetailsResponse
-import ru.hse.sd.hwproj.models.ListSubmissionsResponse
-import ru.hse.sd.hwproj.models.SubmissionResponse
+import ru.hse.sd.hwproj.models.*
 import ru.hse.sd.hwproj.utils.formatToString
-
-fun DIV.assignmentsTable(assignments: List<AssignmentResponse>) {
-    table {
-        tr {
-            th { +"Assignment name" }
-            th { +"Deadline" }
-        }
-        for ((name, deadline, _) in assignments) {
-            tr {
-                td { +name }
-                td { +deadline.formatToString() }
-            }
-        }
-    }
-}
 
 fun DIV.submissionsTable(submissions: List<SubmissionResponse>) {
     table {
@@ -65,8 +47,25 @@ fun HTML.makeSubmissionDetailsPage(response: GetSubmissionDetailsResponse) {
         h1 { +"Details for submission #${submission.id}" }
         div {
             p { +"For assignment: ${submission.assignmentName}" }
+            p {
+                // TODO: <a>
+                +"Link to solution: ${response.submissionLink}"
+            }
             p { +"Success: ${checkResult?.success ?: "unknown"}" }
             if (checkResult != null) p { +"Checker output: ${checkResult.output}" }
+        }
+    }
+}
+
+fun DIV.assignmentDetails(details: GetAssignmentDetailsResponse) {
+    p { +"Name: ${details.name}" }
+    p { +"Deadline: ${details.deadlineTimestamp.formatToString()}" }
+    p { +"Published: ${details.publicationTimestamp.formatToString()}" }
+    p {
+        label { +"Task:" }
+        hardTextArea {
+            disabled = true
+            +details.taskText
         }
     }
 }

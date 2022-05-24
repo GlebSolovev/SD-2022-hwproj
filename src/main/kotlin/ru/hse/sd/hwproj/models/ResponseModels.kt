@@ -25,6 +25,7 @@ data class ListSubmissionsResponse(val submissions: List<SubmissionResponse>) : 
 @Serializable
 data class GetSubmissionDetailsResponse(
     val submissionResponse: SubmissionResponse,
+    val submissionLink: String,
     val checkResultResponse: CheckResultResponse?
 ) : ResponseModel()
 
@@ -66,4 +67,21 @@ data class SubmissionResponse(
 @Serializable
 data class CheckResultResponse(val success: Boolean, val output: String) {
     constructor(checkResultORM: CheckResultORM) : this(checkResultORM.success, checkResultORM.output)
+}
+
+@Serializable
+data class GetAssignmentDetailsResponse(
+    val name: String,
+    val taskText: String,
+    val publicationTimestamp: Timestamp,
+    val deadlineTimestamp: Timestamp,
+    val id: Int,
+): ResponseModel() {
+    constructor(assignment: AssignmentORM) : this(
+        assignment.name,
+        assignment.taskText,
+        assignment.publicationTimestamp,
+        assignment.deadlineTimestamp,
+        assignment._id
+    )
 }

@@ -16,6 +16,9 @@ sealed class RequestModel
 class ListAssignmentsRequest : RequestModel()
 
 @Serializable
+data class GetAssignmentDetailsRequest(val assignmentId: Int) : RequestModel()
+
+@Serializable
 data class SubmitSubmissionRequest(val assignmentId: Int, val submissionLink: String) : RequestModel()
 
 @Serializable
