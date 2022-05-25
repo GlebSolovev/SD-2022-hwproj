@@ -1,11 +1,11 @@
-package ru.hse.sd.hwproj.server.html.student
+package ru.hse.sd.hwproj.io.html.student
 
 import kotlinx.html.*
 import ru.hse.sd.hwproj.models.GetAssignmentDetailsResponse
 import ru.hse.sd.hwproj.models.ListAssignmentsResponse
 import ru.hse.sd.hwproj.models.SubmitSubmissionResponse
-import ru.hse.sd.hwproj.server.html.assignmentDetails
-import ru.hse.sd.hwproj.server.html.customHead
+import ru.hse.sd.hwproj.io.html.assignmentDetails
+import ru.hse.sd.hwproj.io.html.customHead
 import ru.hse.sd.hwproj.utils.formatToString
 
 fun HTML.makeStudentAssignmentsPage(response: ListAssignmentsResponse) {

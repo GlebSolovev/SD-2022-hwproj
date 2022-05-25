@@ -1,4 +1,4 @@
-package ru.hse.sd.hwproj.server
+package ru.hse.sd.hwproj.io
 
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -13,9 +13,10 @@ import ru.hse.sd.hwproj.exceptions.InvalidFormException
 import ru.hse.sd.hwproj.exceptions.NoSuchAssignment
 import ru.hse.sd.hwproj.exceptions.NoSuchSubmission
 import ru.hse.sd.hwproj.interactor.Interactor
-import ru.hse.sd.hwproj.server.html.addLandingHTMLModule
-import ru.hse.sd.hwproj.server.html.student.addStudentHTMLModule
-import ru.hse.sd.hwproj.server.html.teacher.addTeacherHTMLModule
+import ru.hse.sd.hwproj.io.html.addLandingHTMLModule
+import ru.hse.sd.hwproj.io.html.student.addStudentHTMLModule
+import ru.hse.sd.hwproj.io.html.teacher.addTeacherHTMLModule
+import ru.hse.sd.hwproj.io.rest.addRESTModule
 import ru.hse.sd.hwproj.utils.wrapper
 
 fun createServer(interactor: Interactor) = embeddedServer(Netty, port = 8080) {

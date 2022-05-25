@@ -1,4 +1,4 @@
-package ru.hse.sd.hwproj.server.html.teacher
+package ru.hse.sd.hwproj.io.html.teacher
 
 import io.ktor.server.application.*
 import io.ktor.server.html.*
@@ -6,8 +6,8 @@ import io.ktor.server.request.*
 import io.ktor.server.routing.*
 import ru.hse.sd.hwproj.interactor.Interactor
 import ru.hse.sd.hwproj.models.*
-import ru.hse.sd.hwproj.server.html.makeListSubmissionsPage
-import ru.hse.sd.hwproj.server.html.makeSubmissionDetailsPage
+import ru.hse.sd.hwproj.io.html.makeListSubmissionsPage
+import ru.hse.sd.hwproj.io.html.makeSubmissionDetailsPage
 import ru.hse.sd.hwproj.utils.CheckerProgram
 import ru.hse.sd.hwproj.utils.parseHTMLTimestamp
 

@@ -1,4 +1,4 @@
-package ru.hse.sd.hwproj.server
+package ru.hse.sd.hwproj.io.rest
 
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*

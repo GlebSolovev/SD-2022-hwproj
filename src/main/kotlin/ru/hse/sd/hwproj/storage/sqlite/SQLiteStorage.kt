@@ -130,7 +130,6 @@ class SQLiteStorage(sourcePath: String?) : Storage {
             this.checkResult = null
         }._id
     }
-    // TODO: error handling ? (foreign key) ===> throws EntityNotFoundException
     // TODO: constraints - in tables? ===> maybe not, let checkerProgram handle it
 
     override fun createAssignment(

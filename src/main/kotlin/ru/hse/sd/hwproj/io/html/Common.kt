@@ -1,10 +1,10 @@
-package ru.hse.sd.hwproj.server.html
+package ru.hse.sd.hwproj.io.html
 
 import kotlinx.html.*
 import ru.hse.sd.hwproj.models.*
 import ru.hse.sd.hwproj.utils.formatToString
 
-private val bootstapCssCdn = "https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+private const val bootstrapCssCdn = "https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
 
 fun HTML.customHead(block: HEAD.() -> Unit) {
     head {
@@ -15,7 +15,7 @@ fun HTML.customHead(block: HEAD.() -> Unit) {
             content = "width=device-width, initial-scale=1"
         }
         link(
-            href = bootstapCssCdn,
+            href = bootstrapCssCdn,
             rel = "stylesheet",
         )
 

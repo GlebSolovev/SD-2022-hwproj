@@ -1,4 +1,5 @@
 @file:UseSerializers(TimestampSerializer::class)
+@file:Suppress("CanSealedSubClassBeObject")
 
 package ru.hse.sd.hwproj.models
 

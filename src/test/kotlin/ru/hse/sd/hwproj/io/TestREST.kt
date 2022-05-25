@@ -1,6 +1,6 @@
 @file:UseSerializers(TimestampSerializer::class)
 
-package ru.hse.sd.hwproj.server
+package ru.hse.sd.hwproj.io
 
 import io.ktor.client.*
 import io.ktor.client.call.*
@@ -14,6 +14,7 @@ import kotlinx.serialization.UseSerializers
 import ru.hse.sd.hwproj.interactor.EntityGateway
 import ru.hse.sd.hwproj.interactor.Interactor
 import ru.hse.sd.hwproj.models.*
+import ru.hse.sd.hwproj.io.rest.addRESTModule
 import ru.hse.sd.hwproj.storage.sqlite.SQLiteStorage
 import ru.hse.sd.hwproj.utils.CheckerProgram
 import ru.hse.sd.hwproj.utils.Timestamp
