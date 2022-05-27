@@ -71,11 +71,18 @@ fun DIV.assignmentDetails(details: GetAssignmentDetailsResponse) {
 fun HTML.makeWelcomePage() {
     customHead { }
     body {
-        h1 { +"Welcome to HwProj!" }
-        div { a(href = "/student") { +"Continue as student" } }
-        div { a(href = "/teacher") { +"Continue as teacher" } }
+        padded {
+            h1 { +"Welcome to HwProj!" }
+            div { a(href = "/student") { +"Continue as student" } }
+            div { a(href = "/teacher") { +"Continue as teacher" } }
+        }
     }
 }
+
+inline fun BODY.padded(crossinline block: DIV.() -> Unit) {
+    containerFluid("px-5") { block() }
+}
+
 
 @HtmlTagMarker
 inline fun FlowContent.containerFluid(classes: String = "", crossinline block: DIV.() -> Unit = {}): Unit =
