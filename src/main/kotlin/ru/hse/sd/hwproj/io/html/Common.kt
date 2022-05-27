@@ -2,7 +2,9 @@ package ru.hse.sd.hwproj.io.html
 
 import kotlinx.html.*
 import ru.hse.sd.hwproj.models.*
+import ru.hse.sd.hwproj.utils.Timestamp
 import ru.hse.sd.hwproj.utils.formatToString
+import java.time.Duration
 
 private const val bootstrapCssCdn = "https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
 
@@ -24,7 +26,7 @@ fun HTML.customHead(block: HEAD.() -> Unit) {
 }
 
 fun DIV.submissionsTable(submissions: List<SubmissionResponse>) {
-    table {
+    table("table") {
         tr {
             th { +"Id" }
             th { +"Assignment name" }
@@ -32,7 +34,12 @@ fun DIV.submissionsTable(submissions: List<SubmissionResponse>) {
             th { } // link
         }
         for ((success, assignmentName, id, _) in submissions) {
-            tr {
+            val colorTag = when (success) {
+                null -> ""
+                true -> "table-success"
+                false -> "table-danger"
+            }
+            tr(colorTag) {
                 td { +"$id" }
                 td { +assignmentName }
                 td { +"${success ?: "unknown"}" }
@@ -53,6 +60,33 @@ fun DIV.submissionDetails(response: GetSubmissionDetailsResponse) {
     }
     p { +"Success: ${checkResult?.success ?: "unknown"}" }
     if (checkResult != null) p { +"Checker output: ${checkResult.output}" }
+}
+
+fun DIV.assignmentsTable(assignments: List<AssignmentResponse>, isStudent: Boolean) {
+    table("table") {
+        tr {
+            th { +"Assignment name" }
+            th { +"Deadline" }
+            th { } // link to details
+        }
+        for ((name, deadline, id) in assignments) {
+            val delta: Duration = Duration.between(Timestamp.now(), deadline)
+            val colorTag: String = when {
+                delta.isNegative -> "table-secondary"
+                delta.toHours() < 24 -> "table-warning"
+                else -> ""
+            }
+            tr(colorTag) {
+                td { +name }
+                td { +deadline.formatToString() }
+                td {
+                    a(href = "/${if (isStudent) "student" else "teacher"}/assignments/$id") {
+                        +"See details${if (isStudent) " / submit" else ""}"
+                    }
+                }
+            }
+        }
+    }
 }
 
 fun DIV.assignmentDetails(details: GetAssignmentDetailsResponse) {
@@ -80,7 +114,7 @@ fun HTML.makeWelcomePage() {
 }
 
 inline fun BODY.padded(crossinline block: DIV.() -> Unit) {
-    containerFluid("px-5") { block() }
+    containerFluid("p-5") { block() }
 }
 
 

@@ -3,7 +3,6 @@ package ru.hse.sd.hwproj.io.html.student
 import kotlinx.html.*
 import ru.hse.sd.hwproj.io.html.*
 import ru.hse.sd.hwproj.models.*
-import ru.hse.sd.hwproj.utils.formatToString
 
 fun BODY.studentNavbar() {
     nav(classes = "navbar navbar-expand-lg navbar-dark bg-info") {
@@ -27,20 +26,7 @@ fun HTML.makeStudentAssignmentsPage(response: ListAssignmentsResponse) {
                 +"Assignments list"
             }
             div {
-                table {
-                    tr {
-                        th { +"Assignment name" }
-                        th { +"Deadline" }
-                        th { } // link to details
-                    }
-                    for ((name, deadline, id) in assignments) {
-                        tr {
-                            td { +name }
-                            td { +deadline.formatToString() }
-                            td { a(href = "/student/assignments/$id") { +"See details / submit" } }
-                        }
-                    }
-                }
+                assignmentsTable(assignments, true)
             }
         }
     }
