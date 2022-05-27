@@ -43,8 +43,8 @@ fun HTML.makeStudentAssignmentDetailsPage(response: GetAssignmentDetailsResponse
             div {
                 assignmentDetails(response)
             }
-            div {
-                h2 { +"Create new submission:" }
+            h2 { +"Create new submission:" }
+            div("d-flex justify-content-start") {
                 form(
                     action = "/student/submissions",
                     method = FormMethod.post,
@@ -52,10 +52,10 @@ fun HTML.makeStudentAssignmentDetailsPage(response: GetAssignmentDetailsResponse
                 ) {
                     p {
                         label { +"Link to solution:" }
-                        textInput(name = "link")
+                        textInput(name = "link", classes = "form-control")
                     }
                     hiddenInput(name = "assignmentId") { value = "${response.id}" }
-                    submitInput { value = "Submit" }
+                    submitInput(classes = "form-control btn btn-primary") { value = "Submit" }
                 }
             }
         }

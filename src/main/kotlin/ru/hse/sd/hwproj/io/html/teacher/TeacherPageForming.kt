@@ -23,7 +23,7 @@ fun HTML.makeTeacherAssignmentsPage(response: ListAssignmentsResponse) {
         teacherNavbar()
         padded {
             h1 { +"Assignments" }
-            div { a(href = "/teacher/assignments/new") { +"Create new assignment" } }
+            div("p-3") { a(href = "/teacher/assignments/new") { +"Create new assignment" } }
             div {
                 assignmentsTable(assignments, false)
             }
@@ -37,7 +37,7 @@ fun HTML.makeTeacherNewAssignmentPage() {
         teacherNavbar()
         padded {
             h1 { +"Creating new assignment" }
-            div {
+            div("d-flex justify-content-start") {
                 form(
                     action = "/teacher/assignments/new",
                     method = FormMethod.post,
@@ -45,26 +45,26 @@ fun HTML.makeTeacherNewAssignmentPage() {
                 ) {
                     p {
                         label { +"Assignment name:" }
-                        textInput(name = "name") { required = true }
+                        textInput(name = "name", classes = "form-control") { required = true }
                     }
                     p {
                         label { +"Task text:" }
-                        textInput(name = "taskText") { required = true }
+                        textInput(name = "taskText", classes = "form-control") { required = true }
                     }
                     p {
                         label { +"Publication time:" }
-                        dateTimeLocalInput(name = "publicationTime") { required = true }
+                        dateTimeLocalInput(name = "publicationTime", classes = "form-control") { required = true }
                     }
                     p {
                         label { +"Deadline:" }
-                        dateTimeLocalInput(name = "deadlineTime") { required = true }
+                        dateTimeLocalInput(name = "deadlineTime", classes = "form-control") { required = true }
                     }
                     p {
                         label { +"Checker program:" }
-                        fileInput(name = "checker")
+                        fileInput(name = "checker", classes = "form-control")
                     }
                     p {
-                        submitInput { value = "Create new assignment" }
+                        submitInput(classes = "form-control btn btn-primary") { value = "Create new assignment" }
                     }
                 }
             }

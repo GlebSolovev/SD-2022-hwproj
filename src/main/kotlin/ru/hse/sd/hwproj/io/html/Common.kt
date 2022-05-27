@@ -53,13 +53,16 @@ fun DIV.submissionDetails(response: GetSubmissionDetailsResponse) {
     val submission = response.submissionResponse
     val checkResult = response.checkResultResponse
 
-    p { +"For assignment: ${submission.assignmentName}" }
-    p {
-        // TODO: <a>
-        +"Link to solution: ${response.submissionLink}"
+    dl("row") {
+        dt { +"For assignment" }
+        dd { +submission.assignmentName }
+
+        dt { +"Solution link" }
+        dd { response.submissionLink } // TODO: <a>
+
+        dt { +"Checking status" }
+        dd { if (checkResult != null) p { +"Checker output: ${checkResult.output}" } }
     }
-    p { +"Success: ${checkResult?.success ?: "unknown"}" }
-    if (checkResult != null) p { +"Checker output: ${checkResult.output}" }
 }
 
 fun DIV.assignmentsTable(assignments: List<AssignmentResponse>, isStudent: Boolean) {
@@ -90,15 +93,18 @@ fun DIV.assignmentsTable(assignments: List<AssignmentResponse>, isStudent: Boole
 }
 
 fun DIV.assignmentDetails(details: GetAssignmentDetailsResponse) {
-    p { +"Name: ${details.name}" }
-    p { +"Deadline: ${details.deadlineTimestamp.formatToString()}" }
-    p { +"Published: ${details.publicationTimestamp.formatToString()}" }
-    p {
-        label { +"Task:" }
-        hardTextArea {
-            disabled = true
-            +details.taskText
-        }
+    dl("row") {
+        dt { +"Name" }
+        dd { +details.name }
+
+        dt { +"Deadline" }
+        dd { +details.deadlineTimestamp.formatToString() }
+
+        dt { +"Published" }
+        dd { +details.publicationTimestamp.formatToString() }
+
+        dt { +"Task text" }
+        dd { +details.taskText }
     }
 }
 
