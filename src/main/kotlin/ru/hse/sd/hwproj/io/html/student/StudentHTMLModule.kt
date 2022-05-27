@@ -6,8 +6,6 @@ import io.ktor.server.request.*
 import io.ktor.server.routing.*
 import ru.hse.sd.hwproj.interactor.Interactor
 import ru.hse.sd.hwproj.models.*
-import ru.hse.sd.hwproj.io.html.makeListSubmissionsPage
-import ru.hse.sd.hwproj.io.html.makeSubmissionDetailsPage
 
 fun Application.addStudentHTMLModule(interactor: Interactor) {
     routing {
@@ -27,7 +25,7 @@ fun Application.addStudentHTMLModule(interactor: Interactor) {
                 get {
                     val request = ListSubmissionsRequest()
                     val response = interactor.handleRequest(request) as ListSubmissionsResponse
-                    call.respondHtml { makeListSubmissionsPage(response) }
+                    call.respondHtml { makeStudentSubmissionListPage(response) }
                 }
                 post {
                     val formParameters = call.receiveParameters()
@@ -42,7 +40,7 @@ fun Application.addStudentHTMLModule(interactor: Interactor) {
                     val id = call.parameters["id"]!!.toInt()
                     val request = GetSubmissionDetailsRequest(id)
                     val response = interactor.handleRequest(request) as GetSubmissionDetailsResponse
-                    call.respondHtml { makeSubmissionDetailsPage(response) }
+                    call.respondHtml { makeStudentSubmissionDetailsPage(response) }
                 }
             }
         }

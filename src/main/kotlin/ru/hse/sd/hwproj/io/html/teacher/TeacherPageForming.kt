@@ -1,17 +1,27 @@
 package ru.hse.sd.hwproj.io.html.teacher
 
 import kotlinx.html.*
-import ru.hse.sd.hwproj.models.CreateAssignmentResponse
-import ru.hse.sd.hwproj.models.GetAssignmentDetailsResponse
-import ru.hse.sd.hwproj.models.ListAssignmentsResponse
-import ru.hse.sd.hwproj.io.html.assignmentDetails
-import ru.hse.sd.hwproj.io.html.customHead
+import ru.hse.sd.hwproj.io.html.*
+import ru.hse.sd.hwproj.models.*
 import ru.hse.sd.hwproj.utils.formatToString
+
+fun BODY.teacherNavbar() {
+    nav(classes = "navbar navbar-expand-lg navbar-light bg-light") {
+        containerFluid {
+            span("navbar-brand mx-3 h1") { +"Teacher mode" }
+            div("navbar-nav") {
+                a(href = "/teacher/assignments", classes = "nav-item m-3") { +"Assignments" }
+                a(href = "/teacher/submissions", classes = "nav-item m-3") { +"Submissions" }
+            }
+        }
+    }
+}
 
 fun HTML.makeTeacherAssignmentsPage(response: ListAssignmentsResponse) {
     val assignments = response.assignments
-    customHead {  }
+    customHead { }
     body {
+        teacherNavbar()
         h1 { +"Assignments" }
         div { a(href = "/teacher/assignments/new") { +"Create new assignment" } }
         div {
@@ -34,8 +44,9 @@ fun HTML.makeTeacherAssignmentsPage(response: ListAssignmentsResponse) {
 }
 
 fun HTML.makeTeacherNewAssignmentPage() {
-    customHead {  }
+    customHead { }
     body {
+        teacherNavbar()
         h1 { +"Creating new assignment" }
         div {
             form(
@@ -72,8 +83,9 @@ fun HTML.makeTeacherNewAssignmentPage() {
 }
 
 fun HTML.makeTeacherCreatedAssignmentPage(response: CreateAssignmentResponse) {
-    customHead {  }
+    customHead { }
     body {
+        teacherNavbar()
         h1 { +"Creating new assignment" }
         div { +"Successfully created new assignment with id #${response.assignmentId}" }
         div { a(href = "/teacher/assignments") { +"Back to assignments list" } }
@@ -81,8 +93,9 @@ fun HTML.makeTeacherCreatedAssignmentPage(response: CreateAssignmentResponse) {
 }
 
 fun HTML.makeTeacherAssignmentDetailsPage(response: GetAssignmentDetailsResponse) {
-    customHead {  }
+    customHead { }
     body {
+        teacherNavbar()
         h1 {
             +"Details for assignment #${response.id}"
         }
@@ -92,13 +105,25 @@ fun HTML.makeTeacherAssignmentDetailsPage(response: GetAssignmentDetailsResponse
     }
 }
 
-fun HTML.makeTeacherLandingPage() {
-    customHead {  }
+fun HTML.makeTeacherSubmissionListPage(response: ListSubmissionsResponse) {
+    val submissions = response.submissions
+    customHead { }
     body {
-        h1 {
-            +"Teacher mode"
+        teacherNavbar()
+        h1 { +"Submissions list" }
+        div {
+            submissionsTable(submissions)
         }
-        div { a(href = "/teacher/assignments") { +"See assignments list" } }
-        div { a(href = "/teacher/submissions") { +"See submissions list" } }
+    }
+}
+
+fun HTML.makeTeacherSubmissionDetailsPage(response: GetSubmissionDetailsResponse) {
+    customHead { }
+    body {
+        teacherNavbar()
+        h1 { +"Details for submission #${response.submissionResponse.id}" }
+        div {
+            submissionDetails(response)
+        }
     }
 }

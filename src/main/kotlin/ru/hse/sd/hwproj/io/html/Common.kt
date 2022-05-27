@@ -42,34 +42,17 @@ fun DIV.submissionsTable(submissions: List<SubmissionResponse>) {
     }
 }
 
-fun HTML.makeListSubmissionsPage(response: ListSubmissionsResponse) {
-    val submissions = response.submissions
-    customHead { }
-    body {
-        h1 { +"Submissions list" }
-        div {
-            submissionsTable(submissions)
-        }
-    }
-}
-
-fun HTML.makeSubmissionDetailsPage(response: GetSubmissionDetailsResponse) {
+fun DIV.submissionDetails(response: GetSubmissionDetailsResponse) {
     val submission = response.submissionResponse
     val checkResult = response.checkResultResponse
 
-    customHead { }
-    body {
-        h1 { +"Details for submission #${submission.id}" }
-        div {
-            p { +"For assignment: ${submission.assignmentName}" }
-            p {
-                // TODO: <a>
-                +"Link to solution: ${response.submissionLink}"
-            }
-            p { +"Success: ${checkResult?.success ?: "unknown"}" }
-            if (checkResult != null) p { +"Checker output: ${checkResult.output}" }
-        }
+    p { +"For assignment: ${submission.assignmentName}" }
+    p {
+        // TODO: <a>
+        +"Link to solution: ${response.submissionLink}"
     }
+    p { +"Success: ${checkResult?.success ?: "unknown"}" }
+    if (checkResult != null) p { +"Checker output: ${checkResult.output}" }
 }
 
 fun DIV.assignmentDetails(details: GetAssignmentDetailsResponse) {
@@ -93,3 +76,7 @@ fun HTML.makeWelcomePage() {
         div { a(href = "/teacher") { +"Continue as teacher" } }
     }
 }
+
+@HtmlTagMarker
+inline fun FlowContent.containerFluid(classes: String = "", crossinline block: DIV.() -> Unit = {}): Unit =
+    DIV(attributesMapOf("class", "container-fluid $classes"), consumer).visit(block)

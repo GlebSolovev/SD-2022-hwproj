@@ -1,17 +1,27 @@
 package ru.hse.sd.hwproj.io.html.student
 
 import kotlinx.html.*
-import ru.hse.sd.hwproj.models.GetAssignmentDetailsResponse
-import ru.hse.sd.hwproj.models.ListAssignmentsResponse
-import ru.hse.sd.hwproj.models.SubmitSubmissionResponse
-import ru.hse.sd.hwproj.io.html.assignmentDetails
-import ru.hse.sd.hwproj.io.html.customHead
+import ru.hse.sd.hwproj.io.html.*
+import ru.hse.sd.hwproj.models.*
 import ru.hse.sd.hwproj.utils.formatToString
+
+fun BODY.studentNavbar() {
+    nav(classes = "navbar navbar-expand-lg navbar-dark bg-info") {
+        containerFluid {
+            span("navbar-brand m-3 h1") { +"Student mode" }
+            div("navbar-nav") {
+                a(href = "/student/assignments", classes = "nav-item m-3") { +"Assignments" }
+                a(href = "/student/submissions", classes = "nav-item m-3") { +"Submissions" }
+            }
+        }
+    }
+}
 
 fun HTML.makeStudentAssignmentsPage(response: ListAssignmentsResponse) {
     val assignments = response.assignments
-    customHead {  }
+    customHead { }
     body {
+        studentNavbar()
         h1 {
             +"Assignments list"
         }
@@ -35,8 +45,9 @@ fun HTML.makeStudentAssignmentsPage(response: ListAssignmentsResponse) {
 }
 
 fun HTML.makeStudentAssignmentDetailsPage(response: GetAssignmentDetailsResponse) {
-    customHead {  }
+    customHead { }
     body {
+        studentNavbar()
         h1 {
             +"Details for assignment #${response.id}"
         }
@@ -62,8 +73,9 @@ fun HTML.makeStudentAssignmentDetailsPage(response: GetAssignmentDetailsResponse
 }
 
 fun HTML.makeStudentSubmittedSubmissionPage(response: SubmitSubmissionResponse) {
-    customHead {  }
+    customHead { }
     body {
+        studentNavbar()
         h1 {
             +"Created new submission"
         }
@@ -76,13 +88,25 @@ fun HTML.makeStudentSubmittedSubmissionPage(response: SubmitSubmissionResponse) 
     }
 }
 
-fun HTML.makeStudentLandingPage() {
-    customHead {  }
+fun HTML.makeStudentSubmissionListPage(response: ListSubmissionsResponse) {
+    val submissions = response.submissions
+    customHead { }
     body {
-        h1 {
-            +"Student mode"
+        studentNavbar()
+        h1 { +"Submissions list" }
+        div {
+            submissionsTable(submissions)
         }
-        div { a(href = "/student/assignments") { +"See assignments list" } }
-        div { a(href = "/student/submissions") { +"See submissions list" } }
+    }
+}
+
+fun HTML.makeStudentSubmissionDetailsPage(response: GetSubmissionDetailsResponse) {
+    customHead { }
+    body {
+        studentNavbar()
+        h1 { +"Details for submission #${response.submissionResponse.id}" }
+        div {
+            submissionDetails(response)
+        }
     }
 }

@@ -2,9 +2,8 @@ package ru.hse.sd.hwproj.io.html
 
 import io.ktor.server.application.*
 import io.ktor.server.html.*
+import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import ru.hse.sd.hwproj.io.html.student.makeStudentLandingPage
-import ru.hse.sd.hwproj.io.html.teacher.makeTeacherLandingPage
 
 fun Application.addLandingHTMLModule() {
     routing {
@@ -12,10 +11,10 @@ fun Application.addLandingHTMLModule() {
             call.respondHtml { makeWelcomePage() }
         }
         get("/student") {
-            call.respondHtml { makeStudentLandingPage() }
+            call.respondRedirect("/student/assignments")
         }
         get("/teacher") {
-            call.respondHtml { makeTeacherLandingPage() }
+            call.respondRedirect("/teacher/assignments")
         }
     }
 }

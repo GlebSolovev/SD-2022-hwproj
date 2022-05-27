@@ -6,8 +6,6 @@ import io.ktor.server.request.*
 import io.ktor.server.routing.*
 import ru.hse.sd.hwproj.interactor.Interactor
 import ru.hse.sd.hwproj.models.*
-import ru.hse.sd.hwproj.io.html.makeListSubmissionsPage
-import ru.hse.sd.hwproj.io.html.makeSubmissionDetailsPage
 import ru.hse.sd.hwproj.utils.CheckerProgram
 import ru.hse.sd.hwproj.utils.parseHTMLTimestamp
 
@@ -47,13 +45,13 @@ fun Application.addTeacherHTMLModule(interactor: Interactor) {
             get("/submissions") {
                 val request = ListSubmissionsRequest()
                 val response = interactor.handleRequest(request) as ListSubmissionsResponse
-                call.respondHtml { makeListSubmissionsPage(response) }
+                call.respondHtml { makeTeacherSubmissionListPage(response) }
             }
             get("/submissions/{id}") {
                 val id = call.parameters["id"]!!.toInt()
                 val request = GetSubmissionDetailsRequest(id)
                 val response = interactor.handleRequest(request) as GetSubmissionDetailsResponse
-                call.respondHtml { makeSubmissionDetailsPage(response) }
+                call.respondHtml { makeTeacherSubmissionDetailsPage(response) }
             }
         }
     }
