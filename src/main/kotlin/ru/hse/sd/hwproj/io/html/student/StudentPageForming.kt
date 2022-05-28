@@ -37,25 +37,31 @@ fun HTML.makeStudentAssignmentDetailsPage(response: GetAssignmentDetailsResponse
     body {
         studentNavbar()
         padded {
-            h1 {
-                +"Details for assignment #${response.id}"
-            }
-            div {
-                assignmentDetails(response)
-            }
-            h2 { +"Create new submission:" }
-            div("d-flex justify-content-start") {
-                form(
-                    action = "/student/submissions",
-                    method = FormMethod.post,
-                    encType = FormEncType.applicationXWwwFormUrlEncoded,
-                ) {
-                    p {
-                        label { +"Link to solution:" }
-                        textInput(name = "link", classes = "form-control")
+            div("container m-0 p-0") {
+                div("row m-0 p-0") {
+                    div("col-9 m-0 p-0") {
+                        h1 {
+                            +"Details for assignment #${response.id}"
+                        }
+                        div {
+                            assignmentDetails(response)
+                        }
                     }
-                    hiddenInput(name = "assignmentId") { value = "${response.id}" }
-                    submitInput(classes = "form-control btn btn-primary") { value = "Submit" }
+                    div("col-3") {
+                        h2 { +"Create new submission:" }
+                        form(
+                            action = "/student/submissions",
+                            method = FormMethod.post,
+                            encType = FormEncType.applicationXWwwFormUrlEncoded,
+                        ) {
+                            p("my-4") {
+                                label { +"Link to solution:" }
+                                textInput(name = "link", classes = "form-control") { required = true }
+                            }
+                            hiddenInput(name = "assignmentId") { value = "${response.id}" }
+                            submitInput(classes = "form-control btn btn-primary") { value = "Submit" }
+                        }
+                    }
                 }
             }
         }
@@ -70,7 +76,7 @@ fun HTML.makeStudentSubmittedSubmissionPage(response: SubmitSubmissionResponse) 
             h1 {
                 +"Created new submission"
             }
-            div {
+            div("my-2") {
                 +"Successfully submitted new submission with id #${response.submissionId}"
             }
             div {
@@ -88,7 +94,7 @@ fun HTML.makeStudentSubmissionListPage(response: ListSubmissionsResponse) {
         padded {
             h1 { +"Submissions list" }
             div {
-                submissionsTable(submissions)
+                submissionsTable(submissions, true)
             }
         }
     }

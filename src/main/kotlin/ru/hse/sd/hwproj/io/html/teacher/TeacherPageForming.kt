@@ -78,7 +78,7 @@ fun HTML.makeTeacherCreatedAssignmentPage(response: CreateAssignmentResponse) {
         teacherNavbar()
         padded {
             h1 { +"Creating new assignment" }
-            div { +"Successfully created new assignment with id #${response.assignmentId}" }
+            div("my-2") { +"Successfully created new assignment with id #${response.assignmentId}" }
             div { a(href = "/teacher/assignments") { +"Back to assignments list" } }
         }
     }
@@ -107,7 +107,7 @@ fun HTML.makeTeacherSubmissionListPage(response: ListSubmissionsResponse) {
         padded {
             h1 { +"Submissions list" }
             div {
-                submissionsTable(submissions)
+                submissionsTable(submissions, false)
             }
         }
     }

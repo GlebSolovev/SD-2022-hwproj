@@ -25,7 +25,7 @@ fun HTML.customHead(block: HEAD.() -> Unit) {
     }
 }
 
-fun DIV.submissionsTable(submissions: List<SubmissionResponse>) {
+fun DIV.submissionsTable(submissions: List<SubmissionResponse>, isStudent: Boolean) {
     table("table") {
         tr {
             th { +"Id" }
@@ -43,7 +43,7 @@ fun DIV.submissionsTable(submissions: List<SubmissionResponse>) {
                 td { +"$id" }
                 td { +assignmentName }
                 td { +"${success ?: "unknown"}" }
-                td { a(href = "/student/submissions/$id") { +"see details" } }
+                td { a(href = "/${if (isStudent) "student" else "teacher"}/submissions/$id") { +"see details" } }
             }
         }
     }
@@ -54,14 +54,22 @@ fun DIV.submissionDetails(response: GetSubmissionDetailsResponse) {
     val checkResult = response.checkResultResponse
 
     dl("row") {
-        dt { +"For assignment" }
-        dd { +submission.assignmentName }
-
-        dt { +"Solution link" }
-        dd { response.submissionLink } // TODO: <a>
-
-        dt { +"Checking status" }
-        dd { if (checkResult != null) p { +"Checker output: ${checkResult.output}" } }
+        div("m-2") {
+            this@dl.dt { +"For assignment" }
+            this@dl.dd { +submission.assignmentName }
+        }
+        div("m-2") {
+            this@dl.dt { +"Solution link" }
+            this@dl.dd { response.submissionLink } // TODO: <a>
+        }
+        div("m-2") {
+            this@dl.dt { +"Checking status" }
+            this@dl.dd { if (checkResult != null) +if (checkResult.success) "success" else "failure" else +"unknown / not ready" }
+        }
+        if (checkResult != null) div("m-2") {
+            this@dl.dt { +"Checker output}" }
+            this@dl.dd { +checkResult.output }
+        }
     }
 }
 
@@ -84,7 +92,7 @@ fun DIV.assignmentsTable(assignments: List<AssignmentResponse>, isStudent: Boole
                 td { +deadline.formatToString() }
                 td {
                     a(href = "/${if (isStudent) "student" else "teacher"}/assignments/$id") {
-                        +"See details${if (isStudent) " / submit" else ""}"
+                        +"see details${if (isStudent) " / submit" else ""}"
                     }
                 }
             }
@@ -94,17 +102,22 @@ fun DIV.assignmentsTable(assignments: List<AssignmentResponse>, isStudent: Boole
 
 fun DIV.assignmentDetails(details: GetAssignmentDetailsResponse) {
     dl("row") {
-        dt { +"Name" }
-        dd { +details.name }
-
-        dt { +"Deadline" }
-        dd { +details.deadlineTimestamp.formatToString() }
-
-        dt { +"Published" }
-        dd { +details.publicationTimestamp.formatToString() }
-
-        dt { +"Task text" }
-        dd { +details.taskText }
+        div("m-2") {
+            this@dl.dt { +"Name" }
+            this@dl.dd { +details.name }
+        }
+        div("m-2") {
+            this@dl.dt { +"Deadline" }
+            this@dl.dd { +details.deadlineTimestamp.formatToString() }
+        }
+        div("m-2") {
+            this@dl.dt { +"Published" }
+            this@dl.dd { +details.publicationTimestamp.formatToString() }
+        }
+        div("m-2") {
+            this@dl.dt { +"Task text" }
+            this@dl.dd { +details.taskText }
+        }
     }
 }
 
@@ -112,9 +125,11 @@ fun HTML.makeWelcomePage() {
     customHead { }
     body {
         padded {
-            h1 { +"Welcome to HwProj!" }
-            div { a(href = "/student") { +"Continue as student" } }
-            div { a(href = "/teacher") { +"Continue as teacher" } }
+            containerFluid("d-flex flex-column justify-content-center align-items-center") {
+                div("m-5") { h1 { +"Welcome to HwProj!" } }
+                div("m-4") { a(href = "/student") { +"Continue as student" } }
+                div("m-4") { a(href = "/teacher") { +"Continue as teacher" } }
+            }
         }
     }
 }
