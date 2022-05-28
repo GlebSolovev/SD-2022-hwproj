@@ -60,11 +60,17 @@ fun DIV.submissionDetails(response: GetSubmissionDetailsResponse) {
         }
         div("m-2") {
             this@dl.dt { +"Solution link" }
-            this@dl.dd { response.submissionLink } // TODO: <a>
+            this@dl.dd { +response.submissionLink } // TODO: <a>
         }
         div("m-2") {
             this@dl.dt { +"Checking status" }
-            this@dl.dd { if (checkResult != null) +if (checkResult.success) "success" else "failure" else +"unknown / not ready" }
+            this@dl.dd {
+                +when (checkResult?.success) {
+                    null -> "unknown / not ready"
+                    true -> "success"
+                    false -> "failure"
+                }
+            }
         }
         if (checkResult != null) div("m-2") {
             this@dl.dt { +"Checker output}" }
