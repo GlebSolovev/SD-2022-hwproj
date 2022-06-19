@@ -23,7 +23,7 @@ class ListAssignmentsRequest : RequestModel()
 
 /**
  * Request for getting the details for a specific assignment.
- * 
+ *
  * @property assignmentId The id of specific assignment.
  */
 @Serializable
@@ -46,7 +46,7 @@ class ListSubmissionsRequest : RequestModel()
 
 /**
  * Request for getting the details of a specific submission.
- * 
+ *
  * @property submissionId The id of specific submission.
  */
 @Serializable
@@ -54,7 +54,7 @@ data class GetSubmissionDetailsRequest(val submissionId: Int) : RequestModel()
 
 /**
  * Request for creating a new assignment.
- * 
+ *
  * @property name The name of the assignment.
  * @property taskText The statement of the assignment.
  * @property publicationTimestamp The time when this assignment should be published and become available to students.
