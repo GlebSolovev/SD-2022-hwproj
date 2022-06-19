@@ -5,6 +5,9 @@ import ru.hse.sd.hwproj.models.ListSubmissionsResponse
 import ru.hse.sd.hwproj.models.SubmissionResponse
 import ru.hse.sd.hwproj.storage.Storage
 
+/**
+ * Common request for getting the list of all submissions.
+ */
 class ListSubmissions(private val storage: Storage) : AbstractEntity<ListSubmissionsRequest>() {
 
     override fun execute(request: ListSubmissionsRequest): ListSubmissionsResponse =

@@ -4,6 +4,9 @@ import kotlinx.html.*
 import ru.hse.sd.hwproj.io.html.*
 import ru.hse.sd.hwproj.models.*
 
+/**
+ * Generates a teacher HTML navigation bar.
+ */
 fun BODY.teacherNavbar() {
     nav(classes = "navbar navbar-expand-lg navbar-light bg-light") {
         containerFluid {
@@ -16,6 +19,9 @@ fun BODY.teacherNavbar() {
     }
 }
 
+/**
+ * Self-explanatory.
+ */
 fun HTML.makeTeacherAssignmentsPage(response: ListAssignmentsResponse) {
     val assignments = response.assignments
     customHead { }
@@ -31,6 +37,9 @@ fun HTML.makeTeacherAssignmentsPage(response: ListAssignmentsResponse) {
     }
 }
 
+/**
+ * Generates a teacher HTML page for creating a new assignment.
+ */
 fun HTML.makeTeacherNewAssignmentPage() {
     customHead { }
     body {
@@ -72,6 +81,9 @@ fun HTML.makeTeacherNewAssignmentPage() {
     }
 }
 
+/**
+ * Generates a teacher HTML page that is shown when a new assignment is created.
+ */
 fun HTML.makeTeacherCreatedAssignmentPage(response: CreateAssignmentResponse) {
     customHead { }
     body {
@@ -84,6 +96,9 @@ fun HTML.makeTeacherCreatedAssignmentPage(response: CreateAssignmentResponse) {
     }
 }
 
+/**
+ * Self-explanatory.
+ */
 fun HTML.makeTeacherAssignmentDetailsPage(response: GetAssignmentDetailsResponse) {
     customHead { }
     body {
@@ -99,6 +114,9 @@ fun HTML.makeTeacherAssignmentDetailsPage(response: GetAssignmentDetailsResponse
     }
 }
 
+/**
+ * Self-explanatory.
+ */
 fun HTML.makeTeacherSubmissionListPage(response: ListSubmissionsResponse) {
     val submissions = response.submissions
     customHead { }
@@ -113,6 +131,9 @@ fun HTML.makeTeacherSubmissionListPage(response: ListSubmissionsResponse) {
     }
 }
 
+/**
+ * Self-explanatory.
+ */
 fun HTML.makeTeacherSubmissionDetailsPage(response: GetSubmissionDetailsResponse) {
     customHead { }
     body {

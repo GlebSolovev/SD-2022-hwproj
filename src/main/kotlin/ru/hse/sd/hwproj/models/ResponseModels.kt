@@ -10,18 +10,43 @@ import ru.hse.sd.hwproj.storage.SubmissionORM
 import ru.hse.sd.hwproj.utils.Timestamp
 import ru.hse.sd.hwproj.utils.TimestampSerializer
 
+/**
+ * Base class for response models. One model represents a response for one request.
+ */
 @Serializable
 sealed class ResponseModel
 
+/**
+ * Response for [ListAssignmentsRequest].
+ *
+ * @property assignments The requested assignments list.
+ */
 @Serializable
 data class ListAssignmentsResponse(val assignments: List<AssignmentResponse>) : ResponseModel()
 
+/**
+ * Response for [SubmitSubmissionRequest].
+ *
+ * @property submissionId The id of a newly created submission.
+ */
 @Serializable
 data class SubmitSubmissionResponse(val submissionId: Int) : ResponseModel()
 
+/**
+ * Response for [ListSubmissionsRequest].
+ *
+ * @property submissions The requested submissions list.
+ */
 @Serializable
 data class ListSubmissionsResponse(val submissions: List<SubmissionResponse>) : ResponseModel()
 
+/**
+ * Response for [GetSubmissionDetailsRequest].
+ *
+ * @property submissionResponse Requested submission's basic info.
+ * @property submissionLink Requested submission's link to content.
+ * @property checkResultResponse Requested submission's checker program result.
+ */
 @Serializable
 data class GetSubmissionDetailsResponse(
     val submissionResponse: SubmissionResponse,
@@ -29,9 +54,17 @@ data class GetSubmissionDetailsResponse(
     val checkResultResponse: CheckResultResponse?
 ) : ResponseModel()
 
+/**
+ * Response for [CreateAssignmentRequest].
+ *
+ * @property assignmentId The id of newly created assignment.
+ */
 @Serializable
 data class CreateAssignmentResponse(val assignmentId: Int) : ResponseModel()
 
+/**
+ * Basic information of an assignment.
+ */
 @Serializable
 data class AssignmentResponse(
     val name: String,
@@ -46,6 +79,9 @@ data class AssignmentResponse(
     )
 }
 
+/**
+ * Basic information of a submission.
+ */
 @Serializable
 data class SubmissionResponse(
     val success: Boolean?,
@@ -62,11 +98,17 @@ data class SubmissionResponse(
     )
 }
 
+/**
+ * Basic information of a check result.
+ */
 @Serializable
 data class CheckResultResponse(val success: Boolean, val output: String) {
     constructor(checkResultORM: CheckResultORM) : this(checkResultORM.success, checkResultORM.output)
 }
 
+/**
+ * Response for [GetAssignmentDetailsRequest].
+ */
 @Serializable
 data class GetAssignmentDetailsResponse(
     val name: String,

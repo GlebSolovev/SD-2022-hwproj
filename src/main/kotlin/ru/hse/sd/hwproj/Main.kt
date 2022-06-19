@@ -10,6 +10,9 @@ import java.nio.file.Paths
 private const val STORAGE_DIRECTORY_PATH = "src/main/resources/db"
 private const val STORAGE_FILE = "test.db"
 
+/**
+ * Application entry point.
+ */
 fun main() {
     File(STORAGE_DIRECTORY_PATH).mkdirs()
     val storage = SQLiteStorage(Paths.get(STORAGE_DIRECTORY_PATH, STORAGE_FILE).toString())

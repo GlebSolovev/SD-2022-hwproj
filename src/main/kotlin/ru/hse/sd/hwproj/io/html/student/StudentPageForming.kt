@@ -4,6 +4,9 @@ import kotlinx.html.*
 import ru.hse.sd.hwproj.io.html.*
 import ru.hse.sd.hwproj.models.*
 
+/**
+ * Generates a student HTML navigation bar.
+ */
 fun BODY.studentNavbar() {
     nav(classes = "navbar navbar-expand-lg navbar-dark bg-info") {
         containerFluid {
@@ -16,6 +19,9 @@ fun BODY.studentNavbar() {
     }
 }
 
+/**
+ * Self-explanatory.
+ */
 fun HTML.makeStudentAssignmentsPage(response: ListAssignmentsResponse) {
     val assignments = response.assignments
     customHead { }
@@ -32,6 +38,9 @@ fun HTML.makeStudentAssignmentsPage(response: ListAssignmentsResponse) {
     }
 }
 
+/**
+ * Self-explanatory.
+ */
 fun HTML.makeStudentAssignmentDetailsPage(response: GetAssignmentDetailsResponse) {
     customHead { }
     body {
@@ -68,6 +77,9 @@ fun HTML.makeStudentAssignmentDetailsPage(response: GetAssignmentDetailsResponse
     }
 }
 
+/**
+ * Generates a student HTML page that is shown when a new submission is submitted.
+ */
 fun HTML.makeStudentSubmittedSubmissionPage(response: SubmitSubmissionResponse) {
     customHead { }
     body {
@@ -86,6 +98,9 @@ fun HTML.makeStudentSubmittedSubmissionPage(response: SubmitSubmissionResponse) 
     }
 }
 
+/**
+ * Self-explanatory.
+ */
 fun HTML.makeStudentSubmissionListPage(response: ListSubmissionsResponse) {
     val submissions = response.submissions
     customHead { }
@@ -100,6 +115,9 @@ fun HTML.makeStudentSubmissionListPage(response: ListSubmissionsResponse) {
     }
 }
 
+/**
+ * Self-explanatory.
+ */
 fun HTML.makeStudentSubmissionDetailsPage(response: GetSubmissionDetailsResponse) {
     customHead { }
     body {

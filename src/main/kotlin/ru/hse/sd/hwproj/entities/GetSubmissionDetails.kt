@@ -3,6 +3,9 @@ package ru.hse.sd.hwproj.entities
 import ru.hse.sd.hwproj.models.*
 import ru.hse.sd.hwproj.storage.Storage
 
+/**
+ * Common request for getting details for a specific submission.
+ */
 class GetSubmissionDetails(private val storage: Storage) : AbstractEntity<GetSubmissionDetailsRequest>() {
 
     override fun execute(request: GetSubmissionDetailsRequest): GetSubmissionDetailsResponse {

@@ -9,6 +9,9 @@ import ru.hse.sd.hwproj.models.*
 import ru.hse.sd.hwproj.utils.CheckerProgram
 import ru.hse.sd.hwproj.utils.parseHTMLTimestamp
 
+/**
+ * Adds a Ktor [Application] module with HTML pages for teachers.
+ */
 fun Application.addTeacherHTMLModule(interactor: Interactor) {
     routing {
         route("/teacher") {

@@ -9,6 +9,9 @@ import kotlin.time.Duration.Companion.days
 
 private const val BOOTSTRAP_CSS_CDN = "https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
 
+/**
+ * Generates an HTML <head> common for all pages.
+ */
 fun HTML.customHead(block: HEAD.() -> Unit) {
     head {
         title("HwProj")
@@ -26,6 +29,12 @@ fun HTML.customHead(block: HEAD.() -> Unit) {
     }
 }
 
+/**
+ * Generates an HTML <div> element containing a table of submissions with some of its details.
+ *
+ * @param submissions The list of [SubmissionResponse]-s to extract info for table from.
+ * @param isStudent Whether the table is being generated for a student or not.
+ */
 fun DIV.submissionsTable(submissions: List<SubmissionResponse>, isStudent: Boolean) {
     table("table") {
         tr {
@@ -50,6 +59,11 @@ fun DIV.submissionsTable(submissions: List<SubmissionResponse>, isStudent: Boole
     }
 }
 
+/**
+ * Generates an HTML <div> element containing details for a submission.
+ *
+ * @param response The [GetSubmissionDetailsResponse] to extract info from.
+ */
 fun DIV.submissionDetails(response: GetSubmissionDetailsResponse) {
     val submission = response.submissionResponse
     val checkResult = response.checkResultResponse
@@ -80,6 +94,12 @@ fun DIV.submissionDetails(response: GetSubmissionDetailsResponse) {
     }
 }
 
+/**
+ * Generates an HTML <div> element containing a table of assignments with some of its details.
+ *
+ * @param assignments The list of [AssignmentResponse]-s to extract info for table from.
+ * @param isStudent Whether the table is being generated for a student or not.
+ */
 fun DIV.assignmentsTable(assignments: List<AssignmentResponse>, isStudent: Boolean) {
     table("table") {
         tr {
@@ -107,6 +127,11 @@ fun DIV.assignmentsTable(assignments: List<AssignmentResponse>, isStudent: Boole
     }
 }
 
+/**
+ * Generates an HTML <div> element containing details for an assignment.
+ *
+ * @param details The [GetAssignmentDetailsResponse] to extract info from.
+ */
 fun DIV.assignmentDetails(details: GetAssignmentDetailsResponse) {
     dl("row") {
         div("m-2") {
@@ -128,6 +153,9 @@ fun DIV.assignmentDetails(details: GetAssignmentDetailsResponse) {
     }
 }
 
+/**
+ * Generates a common HTML welcome page with options to proceed as a student or as a teacher.
+ */
 fun HTML.makeWelcomePage() {
     customHead { }
     body {
@@ -141,10 +169,16 @@ fun HTML.makeWelcomePage() {
     }
 }
 
+/**
+ * Wraps the given [block] in a padded <div> element.
+ */
 inline fun BODY.padded(crossinline block: DIV.() -> Unit) {
     containerFluid("p-5") { block() }
 }
 
+/**
+ * Bootstrap container wrapper.
+ */
 @HtmlTagMarker
 inline fun FlowContent.containerFluid(classes: String = "", crossinline block: DIV.() -> Unit = {}): Unit =
     DIV(attributesMapOf("class", "container-fluid $classes"), consumer).visit(block)

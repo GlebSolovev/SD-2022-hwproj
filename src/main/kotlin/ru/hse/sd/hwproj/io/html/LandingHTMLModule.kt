@@ -5,6 +5,9 @@ import io.ktor.server.html.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
+/**
+ * Adds a Ktor [Application] module with HTML landing pages.
+ */
 fun Application.addLandingHTMLModule() {
     routing {
         get {

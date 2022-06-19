@@ -9,6 +9,9 @@ import io.ktor.server.routing.*
 import ru.hse.sd.hwproj.interactor.Interactor
 import ru.hse.sd.hwproj.models.*
 
+/**
+ * Adds a Ktor [Application] module for handling REST HTTP requests.
+ */
 fun Application.addRESTModule(interactor: Interactor) {
     routing {
         route("/api") {
@@ -20,7 +23,7 @@ fun Application.addRESTModule(interactor: Interactor) {
     }
 }
 
-fun Route.routeREST(interactor: Interactor) {
+private fun Route.routeREST(interactor: Interactor) {
     route("/assignments") {
         get {
             call.respond(interactor.handleRequest(ListAssignmentsRequest()) as ListAssignmentsResponse)

@@ -7,6 +7,9 @@ import io.ktor.server.routing.*
 import ru.hse.sd.hwproj.interactor.Interactor
 import ru.hse.sd.hwproj.models.*
 
+/**
+ * Adds a Ktor [Application] module with HTML pages for students.
+ */
 fun Application.addStudentHTMLModule(interactor: Interactor) {
     routing {
         route("/student") {

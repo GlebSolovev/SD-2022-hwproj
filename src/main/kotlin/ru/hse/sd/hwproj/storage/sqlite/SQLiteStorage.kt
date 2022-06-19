@@ -19,10 +19,14 @@ import ru.hse.sd.hwproj.utils.CheckerProgram
 import ru.hse.sd.hwproj.utils.Timestamp
 import java.time.Instant
 
-// if no source provided, use in-memory DB
+/**
+ * A [Storage] which uses SQLite database for storing data with Jetbrains Exposed ORM.
+ *
+ * @param sourcePath Path to SQLite database file. If null, an in-memory SQLite database is created.
+ */
 class SQLiteStorage(sourcePath: String?) : Storage {
 
-    object Assignments : IntIdTable() {
+    private object Assignments : IntIdTable() {
         val name = text("name")
         val taskText = text("taskText")
         val publicationTimestamp = timestamp("publicationTimestamp")
@@ -30,6 +34,22 @@ class SQLiteStorage(sourcePath: String?) : Storage {
         val checkerProgram = binary("checkerProgram").nullable()
     }
 
+    private object Submissions : IntIdTable() {
+        val submissionTimestamp = timestamp("submissionTimestamp")
+        val submissionLink = text("submissionLink")
+
+        val assignmentId = reference("assignmentId", Assignments)
+        val checkResultId = reference("checkResultId", CheckResults).nullable()
+    }
+
+    private object CheckResults : IntIdTable() {
+        val success = bool("success")
+        val output = text("output")
+    }
+
+    /**
+     * Jetbrains' Exposed ORM for an assignment.
+     */
     class Assignment(id: EntityID<Int>) : IntEntity(id), AssignmentORM {
         companion object : IntEntityClass<Assignment>(Assignments)
 
@@ -42,19 +62,9 @@ class SQLiteStorage(sourcePath: String?) : Storage {
         override val assignmentId by id::value
     }
 
-    object Submissions : IntIdTable() {
-        val submissionTimestamp = timestamp("submissionTimestamp")
-        val submissionLink = text("submissionLink")
-
-        val assignmentId = reference("assignmentId", Assignments)
-        val checkResultId = reference("checkResultId", CheckResults).nullable()
-    }
-
-    object CheckResults : IntIdTable() {
-        val success = bool("success")
-        val output = text("output")
-    }
-
+    /**
+     * Jetbrains' Exposed ORM for a check result.
+     */
     class CheckResult(id: EntityID<Int>) : IntEntity(id), CheckResultORM {
         companion object : IntEntityClass<CheckResult>(CheckResults)
 
@@ -64,6 +74,9 @@ class SQLiteStorage(sourcePath: String?) : Storage {
         override val checkResultId by id::value
     }
 
+    /**
+     * Jetbrains' Exposed ORM for a submission.
+     */
     class Submission(id: EntityID<Int>) : IntEntity(id), SubmissionORM {
         companion object : IntEntityClass<Submission>(Submissions)
 
