@@ -2,8 +2,6 @@ name: Run tests
 
 on:
   push:
-    branches:
-      - fix-ci
 
   workflow_dispatch: # allow to run this workflow manually
 

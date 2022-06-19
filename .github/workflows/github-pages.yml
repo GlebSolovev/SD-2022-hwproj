@@ -2,7 +2,6 @@ name: Publish-Dokka-documentation
 
 on:
   push:
-    branches: all
 
   workflow_dispatch: # allow to run this workflow manually
 
