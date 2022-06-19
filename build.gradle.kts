@@ -100,7 +100,7 @@ detekt {
 tasks.dokkaHtml.configure {
     dokkaSourceSets {
         pluginConfiguration<DokkaBase, DokkaBaseConfiguration> {
-            customAssets = listOf(file("todo-logo.png"))
+            customAssets = listOf(file("hwproj-logo.png"))
             customStyleSheets = listOf(file("config/dokka/logo-styles.css"))
         }
     }
