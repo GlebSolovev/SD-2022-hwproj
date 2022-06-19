@@ -226,8 +226,6 @@ $dokka.location:ru.hse.sd.hwproj.utils/TimestampSerializer/descriptor/#/Pointing
 $dokka.location:ru.hse.sd.hwproj.utils/TimestampSerializer/deserialize/#kotlinx.serialization.encoding.Decoder/PointingToDeclaration/hwproj/ru.hse.sd.hwproj.utils/-timestamp-serializer/deserialize.html
 $dokka.location:ru.hse.sd.hwproj.utils/TimestampSerializer/serialize/#kotlinx.serialization.encoding.Encoder#java.time.Instant/PointingToDeclaration/hwproj/ru.hse.sd.hwproj.utils/-timestamp-serializer/serialize.html
 $dokka.location:ru.hse.sd.hwproj////PointingToDeclaration/hwproj/ru.hse.sd.hwproj/index.html
-$dokka.location:ru.hse.sd.hwproj//STORAGE_DIRECTORY_PATH/#/PointingToDeclaration/hwproj/ru.hse.sd.hwproj/-s-t-o-r-a-g-e_-d-i-r-e-c-t-o-r-y_-p-a-t-h.html
-$dokka.location:ru.hse.sd.hwproj//STORAGE_FILE/#/PointingToDeclaration/hwproj/ru.hse.sd.hwproj/-s-t-o-r-a-g-e_-f-i-l-e.html
 $dokka.location:ru.hse.sd.hwproj//main/#/PointingToDeclaration/hwproj/ru.hse.sd.hwproj/main.html
 ru.hse.sd.hwproj
 ru.hse.sd.hwproj.entities
