@@ -13,8 +13,8 @@ import kotlinx.coroutines.delay
 import kotlinx.serialization.UseSerializers
 import ru.hse.sd.hwproj.interactor.EntityGateway
 import ru.hse.sd.hwproj.interactor.Interactor
-import ru.hse.sd.hwproj.models.*
 import ru.hse.sd.hwproj.io.rest.addRESTModule
+import ru.hse.sd.hwproj.models.*
 import ru.hse.sd.hwproj.storage.sqlite.SQLiteStorage
 import ru.hse.sd.hwproj.utils.CheckerProgram
 import ru.hse.sd.hwproj.utils.Timestamp
@@ -244,5 +244,4 @@ class TestREST {
             }.status
         )
     }
-
 }

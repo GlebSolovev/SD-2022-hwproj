@@ -3,9 +3,8 @@
 
 package ru.hse.sd.hwproj.models
 
-import kotlinx.serialization.UseSerializers
-
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.UseSerializers
 import ru.hse.sd.hwproj.utils.CheckerProgram
 import ru.hse.sd.hwproj.utils.Timestamp
 import ru.hse.sd.hwproj.utils.TimestampSerializer

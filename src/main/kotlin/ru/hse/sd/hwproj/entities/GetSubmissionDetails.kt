@@ -13,5 +13,4 @@ class GetSubmissionDetails(private val storage: Storage) : AbstractEntity<GetSub
             submission.checkResult?.let { CheckResultResponse(it) }
         )
     }
-
 }

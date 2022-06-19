@@ -39,7 +39,7 @@ class SQLiteStorage(sourcePath: String?) : Storage {
         override var deadlineTimestamp by Assignments.deadlineTimestamp
         override var checkerProgram by Assignments.checkerProgram
 
-        override val _id by id::value
+        override val assignmentId by id::value
     }
 
     object Submissions : IntIdTable() {
@@ -61,7 +61,7 @@ class SQLiteStorage(sourcePath: String?) : Storage {
         override var success by CheckResults.success
         override var output by CheckResults.output
 
-        override val _id by id::value
+        override val checkResultId by id::value
     }
 
     class Submission(id: EntityID<Int>) : IntEntity(id), SubmissionORM {
@@ -73,7 +73,7 @@ class SQLiteStorage(sourcePath: String?) : Storage {
         override var assignment by Assignment referencedOn Submissions.assignmentId
         override var checkResult by CheckResult optionalReferencedOn Submissions.checkResultId
 
-        override val _id by id::value
+        override val submissionId by id::value
     }
 
     init {
@@ -128,7 +128,7 @@ class SQLiteStorage(sourcePath: String?) : Storage {
 
             this.assignment = Assignment[assignmentId]
             this.checkResult = null
-        }._id
+        }.submissionId
     }
     // TODO: constraints - in tables? ===> maybe not, let checkerProgram handle it
 
@@ -145,11 +145,10 @@ class SQLiteStorage(sourcePath: String?) : Storage {
             this.publicationTimestamp = publicationTimestamp
             this.deadlineTimestamp = deadlineTimestamp
             this.checkerProgram = checker?.bytes
-        }._id
+        }.assignmentId
     }
 
     override fun getAssignment(id: Int): AssignmentORM = transaction {
         Assignment.findById(id)
     } ?: throw NoSuchAssignment(id)
-
 }

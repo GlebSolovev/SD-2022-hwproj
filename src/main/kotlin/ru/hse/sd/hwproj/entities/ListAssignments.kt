@@ -7,5 +7,4 @@ class ListAssignments(private val storage: Storage) : AbstractEntity<ListAssignm
 
     override fun execute(request: ListAssignmentsRequest): ListAssignmentsResponse =
         ListAssignmentsResponse(storage.listAssignments().map { AssignmentResponse(it) })
-
 }

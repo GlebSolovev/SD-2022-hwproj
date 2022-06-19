@@ -58,5 +58,4 @@ data class CheckerProgram(val bytes: ByteArray) {
     override fun hashCode(): Int {
         return bytes.contentHashCode()
     }
-
 }

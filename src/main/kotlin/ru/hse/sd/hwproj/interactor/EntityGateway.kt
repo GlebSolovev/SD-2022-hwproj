@@ -16,5 +16,4 @@ class EntityGateway(storage: Storage) {
     val submitSubmission = SubmitSubmission(storage)
 
     val getAssignmentDetails = GetAssignmentDetails(storage)
-
 }

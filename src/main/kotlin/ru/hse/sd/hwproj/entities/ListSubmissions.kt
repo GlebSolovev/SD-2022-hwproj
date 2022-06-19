@@ -9,5 +9,4 @@ class ListSubmissions(private val storage: Storage) : AbstractEntity<ListSubmiss
 
     override fun execute(request: ListSubmissionsRequest): ListSubmissionsResponse =
         ListSubmissionsResponse(storage.listSubmissions().map { SubmissionResponse(it) })
-
 }

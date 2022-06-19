@@ -22,7 +22,6 @@ interface Storage {
         deadlineTimestamp: Timestamp,
         checker: CheckerProgram?
     ): Int
-
 }
 
 interface AssignmentORM {
@@ -32,7 +31,7 @@ interface AssignmentORM {
     val deadlineTimestamp: Timestamp
     val checkerProgram: ByteArray?
 
-    val _id: Int
+    val assignmentId: Int
 }
 
 interface SubmissionORM {
@@ -42,12 +41,12 @@ interface SubmissionORM {
     val assignment: AssignmentORM
     val checkResult: CheckResultORM?
 
-    val _id: Int
+    val submissionId: Int
 }
 
 interface CheckResultORM {
     val success: Boolean
     val output: String
 
-    val _id: Int
+    val checkResultId: Int
 }

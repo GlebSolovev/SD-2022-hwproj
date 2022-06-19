@@ -42,9 +42,8 @@ data class AssignmentResponse(
     constructor(assignmentORM: AssignmentORM) : this(
         assignmentORM.name,
         assignmentORM.deadlineTimestamp,
-        assignmentORM._id
+        assignmentORM.assignmentId
     )
-
 }
 
 @Serializable
@@ -58,10 +57,9 @@ data class SubmissionResponse(
     constructor(submissionORM: SubmissionORM) : this(
         submissionORM.checkResult?.success,
         submissionORM.assignment.name,
-        submissionORM._id,
+        submissionORM.submissionId,
         submissionORM.submissionTimestamp
     )
-
 }
 
 @Serializable
@@ -76,12 +74,12 @@ data class GetAssignmentDetailsResponse(
     val publicationTimestamp: Timestamp,
     val deadlineTimestamp: Timestamp,
     val id: Int,
-): ResponseModel() {
+) : ResponseModel() {
     constructor(assignment: AssignmentORM) : this(
         assignment.name,
         assignment.taskText,
         assignment.publicationTimestamp,
         assignment.deadlineTimestamp,
-        assignment._id
+        assignment.assignmentId
     )
 }

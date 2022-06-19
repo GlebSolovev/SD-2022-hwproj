@@ -12,5 +12,4 @@ class Interactor(private val entityGateway: EntityGateway) {
         is SubmitSubmissionRequest -> entityGateway.submitSubmission.execute(request)
         is GetAssignmentDetailsRequest -> entityGateway.getAssignmentDetails.execute(request)
     }
-
 }

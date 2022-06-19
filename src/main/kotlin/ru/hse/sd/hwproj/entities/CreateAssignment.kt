@@ -18,5 +18,4 @@ class CreateAssignment(private val storage: Storage) : AbstractEntity<CreateAssi
             )
         )
     }
-
 }

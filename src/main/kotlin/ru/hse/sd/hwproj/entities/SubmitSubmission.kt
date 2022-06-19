@@ -8,5 +8,4 @@ class SubmitSubmission(private val storage: Storage) : AbstractEntity<SubmitSubm
 
     override fun execute(request: SubmitSubmissionRequest): SubmitSubmissionResponse =
         SubmitSubmissionResponse(storage.createSubmission(request.assignmentId, request.submissionLink))
-
 }

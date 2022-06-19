@@ -26,5 +26,4 @@ class TestTimestampSerializer {
         check(Timestamp.MAX)
         check(Timestamp.MIN)
     }
-
 }
