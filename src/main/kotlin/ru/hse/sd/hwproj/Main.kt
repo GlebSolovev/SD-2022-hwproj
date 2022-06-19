@@ -7,8 +7,8 @@ import ru.hse.sd.hwproj.storage.sqlite.SQLiteStorage
 import java.io.File
 import java.nio.file.Paths
 
-const val STORAGE_DIRECTORY_PATH = "src/main/resources/db"
-const val STORAGE_FILE = "test.db"
+private const val STORAGE_DIRECTORY_PATH = "src/main/resources/db"
+private const val STORAGE_FILE = "test.db"
 
 fun main() {
     File(STORAGE_DIRECTORY_PATH).mkdirs()
