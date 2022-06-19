@@ -5,7 +5,7 @@
 ## Краткое описание
 _Software Design HW: client server web app for interaction between students and teachers_
 
-[//]: # (**[Ссылка на документацию]&#40;https://glebsolovev.github.io/RGB-rogue-like-game/&#41;**)
+**[Ссылка на документацию](https://glebsolovev.github.io/SD-2022-hwproj/)**
 
 ## Состояние разработки
 На данный момент в проекте:
