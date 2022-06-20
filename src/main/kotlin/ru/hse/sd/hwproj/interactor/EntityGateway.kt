@@ -1,6 +1,7 @@
 package ru.hse.sd.hwproj.interactor
 
 import ru.hse.sd.hwproj.entities.*
+import ru.hse.sd.hwproj.messagebroker.EntityMessageBroker
 import ru.hse.sd.hwproj.storage.Storage
 
 /**
@@ -8,7 +9,7 @@ import ru.hse.sd.hwproj.storage.Storage
  *
  * @param storage The [Storage] that will be used by created entities.
  */
-class EntityGateway(storage: Storage) {
+class EntityGateway(storage: Storage, messageBroker: EntityMessageBroker) {
 
     /**
      * Self-explanatory.
@@ -33,7 +34,7 @@ class EntityGateway(storage: Storage) {
     /**
      * Self-explanatory.
      */
-    val submitSubmission = SubmitSubmission(storage)
+    val submitSubmission = SubmitSubmission(storage, messageBroker)
 
     /**
      * Self-explanatory.

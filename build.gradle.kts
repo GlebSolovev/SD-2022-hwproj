@@ -38,6 +38,7 @@ repositories {
 
 val ktorVersion = "2.0.2"
 val exposedVersion = "0.38.2"
+val rabbitmqVersion = "5.15.0"
 
 dependencies {
     implementation("org.jetbrains.exposed:exposed-core:$exposedVersion")
@@ -57,6 +58,8 @@ dependencies {
     implementation("io.ktor:ktor-server-caching-headers:$ktorVersion")
 
     implementation("io.ktor:ktor-server-html-builder:$ktorVersion")
+
+    implementation("com.rabbitmq:amqp-client:$rabbitmqVersion")
 
     testImplementation(kotlin("test"))
     testImplementation("io.ktor:ktor-server-test-host:$ktorVersion")
