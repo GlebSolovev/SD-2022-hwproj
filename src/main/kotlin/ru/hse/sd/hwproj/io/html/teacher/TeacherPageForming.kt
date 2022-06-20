@@ -50,7 +50,7 @@ fun HTML.makeTeacherNewAssignmentPage() {
                 form(
                     action = "/teacher/assignments/new",
                     method = FormMethod.post,
-                    encType = FormEncType.applicationXWwwFormUrlEncoded,
+                    encType = FormEncType.multipartFormData,
                 ) {
                     p {
                         label { +"Assignment name:" }

@@ -1,9 +1,11 @@
 package ru.hse.sd.hwproj.io.html.teacher
 
+import io.ktor.http.content.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
 import io.ktor.server.request.*
 import io.ktor.server.routing.*
+import ru.hse.sd.hwproj.exceptions.InvalidHttpForm
 import ru.hse.sd.hwproj.interactor.Interactor
 import ru.hse.sd.hwproj.models.*
 import ru.hse.sd.hwproj.utils.CheckerProgram
@@ -31,12 +33,20 @@ fun Application.addTeacherHTMLModule(interactor: Interactor) {
                     call.respondHtml { makeTeacherNewAssignmentPage() }
                 }
                 post {
-                    val formParameters = call.receiveParameters()
-                    val name = formParameters["name"]!!
-                    val taskText = formParameters["taskText"]!!
-                    val publicationTimestamp = parseHTMLTimestamp(formParameters["publicationTime"]!!)
-                    val deadlineTimestamp = parseHTMLTimestamp(formParameters["deadlineTime"]!!)
-                    val checker = formParameters["checker"]?.toByteArray()
+                    val parts = call.receiveMultipart().readAllParts()
+                    val formParts = parts
+                        .filterIsInstance<PartData.FormItem>()
+                        .associate { Pair(it.name, it.value) }
+                    val name = formParts["name"]!!
+                    val taskText = formParts["taskText"]!!
+                    val publicationTimestamp = parseHTMLTimestamp(formParts["publicationTime"]!!)
+                    val deadlineTimestamp = parseHTMLTimestamp(formParts["deadlineTime"]!!)
+
+                    val fileParts = parts.filterIsInstance<PartData.FileItem>()
+                    val checker = if (fileParts.isNotEmpty()) {
+                        if (fileParts.size != 1) throw InvalidHttpForm("expected 1 file part for checker")
+                        fileParts[0].streamProvider().readBytes()
+                    } else null
 
                     val request = CreateAssignmentRequest(
                         name, taskText, publicationTimestamp, deadlineTimestamp, checker?.let { CheckerProgram(it) }
