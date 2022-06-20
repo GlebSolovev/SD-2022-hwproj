@@ -78,8 +78,16 @@ tasks.test {
     useJUnitPlatform()
 }
 
-application {
+task("run-server", JavaExec::class) {
+    group = "application"
     mainClass.set("ru.hse.sd.hwproj.MainKt")
+    classpath = sourceSets.main.get().runtimeClasspath
+}
+
+task("run-runner", JavaExec::class) {
+    group = "application"
+    mainClass.set("ru.hse.sd.hwproj.runner.MainKt")
+    classpath = sourceSets.main.get().runtimeClasspath
 }
 
 detekt {
