@@ -14,6 +14,10 @@ import kotlinx.serialization.UseSerializers
 import ru.hse.sd.hwproj.interactor.EntityGateway
 import ru.hse.sd.hwproj.interactor.Interactor
 import ru.hse.sd.hwproj.io.rest.addRESTModule
+import ru.hse.sd.hwproj.messagebroker.CheckStatus
+import ru.hse.sd.hwproj.messagebroker.EntityMessageBroker
+import ru.hse.sd.hwproj.messagebroker.SubmissionCheckStatus
+import ru.hse.sd.hwproj.messagebroker.SubmissionCheckTask
 import ru.hse.sd.hwproj.models.*
 import ru.hse.sd.hwproj.storage.sqlite.SQLiteStorage
 import ru.hse.sd.hwproj.utils.CheckerProgram
@@ -45,7 +49,7 @@ class TestREST {
     private fun ApplicationTestBuilder.doSetup(): HttpClient {
         application {
             installStatusPages()
-            addRESTModule(Interactor(EntityGateway(storage)))
+            addRESTModule(Interactor(EntityGateway(storage, MockEntityMessageBroker())))
         }
         return createClient {
             this@createClient.install(ContentNegotiation) {
@@ -184,7 +188,7 @@ class TestREST {
 
         val resp5 = client.get("/api/submissions/$submId")
         val respModel5 = resp5.call.body<GetSubmissionDetailsResponse>()
-        assertEquals(null, respModel5.checkResultResponse)
+        assertEquals(null, respModel5.checkResultResponse) // TODO: bool -> enum and check OK
         val submResp5 = respModel5.submissionResponse
         assertEquals(submResp4, submResp5)
     }
@@ -243,5 +247,15 @@ class TestREST {
                 setBody(SubmitSubmissionRequest(5, "hehe://haha.hoho"))
             }.status
         )
+    }
+
+    class MockEntityMessageBroker : EntityMessageBroker {
+        override fun sendCheckTask(
+            task: SubmissionCheckTask,
+            onCheckStatusReady: (SubmissionCheckStatus) -> Unit
+        ) {
+            val mockOkStatus = SubmissionCheckStatus(task.submissionId, CheckStatus.OK, "")
+            onCheckStatusReady(mockOkStatus)
+        }
     }
 }

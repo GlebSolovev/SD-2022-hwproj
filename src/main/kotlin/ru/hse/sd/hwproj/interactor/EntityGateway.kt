@@ -8,6 +8,7 @@ import ru.hse.sd.hwproj.storage.Storage
  * Class creating and storing all request entities.
  *
  * @param storage The [Storage] that will be used by created entities.
+ * @param messageBroker The [EntityMessageBroker] that will be used by created entities.
  */
 class EntityGateway(storage: Storage, messageBroker: EntityMessageBroker) {
 

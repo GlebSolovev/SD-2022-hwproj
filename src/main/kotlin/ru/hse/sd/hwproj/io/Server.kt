@@ -38,7 +38,7 @@ fun createServer(interactor: Interactor) = embeddedServer(Netty, port = 8080) {
     addLandingHTMLModule()
 }
 
-private fun Application.installStatusPages() {
+fun Application.installStatusPages() {
     install(StatusPages) {
         wrapper<NoSuchAssignment>(HttpStatusCode.NotFound)
         wrapper<NoSuchSubmission>(HttpStatusCode.NotFound)

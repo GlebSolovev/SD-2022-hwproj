@@ -14,13 +14,20 @@ class SubmitSubmission(private val storage: Storage, private val messageBroker: 
     AbstractEntity<SubmitSubmissionRequest>() {
 
     override fun execute(request: SubmitSubmissionRequest): SubmitSubmissionResponse {
+        val submissionId = storage.createSubmission(request.assignmentId, request.submissionLink)
+
         val checker = storage.getAssignment(request.assignmentId).checkerProgram
         if (checker != null) messageBroker.sendCheckTask(
             SubmissionCheckTask(
+                submissionId,
                 CheckerProgram(checker),
                 request.submissionLink
             )
-        ) { }
-        return SubmitSubmissionResponse(storage.createSubmission(request.assignmentId, request.submissionLink))
+        ) { checkStatus ->
+            println("SAVE CHECK STATUS: $checkStatus")
+            // TODO: replace with storage.getSubmission(submissionId).checkResult = checkStatus.status
+        }
+
+        return SubmitSubmissionResponse(submissionId)
     }
 }

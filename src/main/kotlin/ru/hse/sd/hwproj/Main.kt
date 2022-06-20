@@ -12,7 +12,7 @@ private const val STORAGE_DIRECTORY_PATH = "src/main/resources/db"
 private const val STORAGE_FILE = "test.db"
 
 /**
- * Application entry point.
+ * Server application entry point.
  */
 fun main() {
     File(STORAGE_DIRECTORY_PATH).mkdirs()

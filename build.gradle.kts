@@ -1,5 +1,6 @@
 import org.jetbrains.dokka.base.DokkaBase
 import org.jetbrains.dokka.base.DokkaBaseConfiguration
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm") version "1.6.21"
@@ -61,9 +62,16 @@ dependencies {
 
     implementation("com.rabbitmq:amqp-client:$rabbitmqVersion")
 
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.2")
+
     testImplementation(kotlin("test"))
     testImplementation("io.ktor:ktor-server-test-host:$ktorVersion")
     testImplementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
+}
+
+tasks.withType<KotlinCompile> {
+    kotlinOptions.jvmTarget = "11"
+    kotlinOptions.freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
 }
 
 tasks.test {

@@ -5,18 +5,26 @@ import com.rabbitmq.client.Connection
 import com.rabbitmq.client.ConnectionFactory
 import java.nio.charset.Charset
 
-abstract class AbstractRabbitMQMessageBroker(serverHost: String, protected val taskQueueName: String) {
+abstract class AbstractRabbitMQMessageBroker(
+    serverHost: String,
+    protected val taskQueueName: String,
+    protected val statusQueueName: String
+) {
 
     private val connectionFactory = ConnectionFactory().also { it.host = serverHost }
     protected val connection: Connection = connectionFactory.newConnection()
-    protected lateinit var channel: Channel
+    protected lateinit var taskChannel: Channel
+    protected lateinit var statusChannel: Channel
 
     protected val charset: Charset = Charset.forName("UTF-8")
 
     init {
         withConnection(connection) {
-            channel = connection.createChannel()
-            channel.queueDeclare(taskQueueName, true, false, false, null)
+            taskChannel = connection.createChannel()
+            taskChannel.queueDeclare(taskQueueName, true, false, false, null)
+
+            statusChannel = connection.createChannel()
+            statusChannel.queueDeclare(statusQueueName, true, false, false, null)
         }
     }
 
