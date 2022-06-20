@@ -19,7 +19,7 @@ $dokka.location:ru.hse.sd.hwproj.entities/ListSubmissions///PointingToDeclaratio
 $dokka.location:ru.hse.sd.hwproj.entities/ListSubmissions/ListSubmissions/#ru.hse.sd.hwproj.storage.Storage/PointingToDeclaration/hwproj/ru.hse.sd.hwproj.entities/-list-submissions/-list-submissions.html
 $dokka.location:ru.hse.sd.hwproj.entities/ListSubmissions/execute/#ru.hse.sd.hwproj.models.ListSubmissionsRequest/PointingToDeclaration/hwproj/ru.hse.sd.hwproj.entities/-list-submissions/execute.html
 $dokka.location:ru.hse.sd.hwproj.entities/SubmitSubmission///PointingToDeclaration/hwproj/ru.hse.sd.hwproj.entities/-submit-submission/index.html
-$dokka.location:ru.hse.sd.hwproj.entities/SubmitSubmission/SubmitSubmission/#ru.hse.sd.hwproj.storage.Storage/PointingToDeclaration/hwproj/ru.hse.sd.hwproj.entities/-submit-submission/-submit-submission.html
+$dokka.location:ru.hse.sd.hwproj.entities/SubmitSubmission/SubmitSubmission/#ru.hse.sd.hwproj.storage.Storage#ru.hse.sd.hwproj.messagebroker.EntityMessageBroker/PointingToDeclaration/hwproj/ru.hse.sd.hwproj.entities/-submit-submission/-submit-submission.html
 $dokka.location:ru.hse.sd.hwproj.entities/SubmitSubmission/execute/#ru.hse.sd.hwproj.models.SubmitSubmissionRequest/PointingToDeclaration/hwproj/ru.hse.sd.hwproj.entities/-submit-submission/execute.html
 $dokka.location:ru.hse.sd.hwproj.exceptions////PointingToDeclaration/hwproj/ru.hse.sd.hwproj.exceptions/index.html
 $dokka.location:ru.hse.sd.hwproj.exceptions/NoSuchAssignment///PointingToDeclaration/hwproj/ru.hse.sd.hwproj.exceptions/-no-such-assignment/index.html
@@ -28,7 +28,7 @@ $dokka.location:ru.hse.sd.hwproj.exceptions/NoSuchSubmission///PointingToDeclara
 $dokka.location:ru.hse.sd.hwproj.exceptions/NoSuchSubmission/NoSuchSubmission/#kotlin.Int/PointingToDeclaration/hwproj/ru.hse.sd.hwproj.exceptions/-no-such-submission/-no-such-submission.html
 $dokka.location:ru.hse.sd.hwproj.interactor////PointingToDeclaration/hwproj/ru.hse.sd.hwproj.interactor/index.html
 $dokka.location:ru.hse.sd.hwproj.interactor/EntityGateway///PointingToDeclaration/hwproj/ru.hse.sd.hwproj.interactor/-entity-gateway/index.html
-$dokka.location:ru.hse.sd.hwproj.interactor/EntityGateway/EntityGateway/#ru.hse.sd.hwproj.storage.Storage/PointingToDeclaration/hwproj/ru.hse.sd.hwproj.interactor/-entity-gateway/-entity-gateway.html
+$dokka.location:ru.hse.sd.hwproj.interactor/EntityGateway/EntityGateway/#ru.hse.sd.hwproj.storage.Storage#ru.hse.sd.hwproj.messagebroker.EntityMessageBroker/PointingToDeclaration/hwproj/ru.hse.sd.hwproj.interactor/-entity-gateway/-entity-gateway.html
 $dokka.location:ru.hse.sd.hwproj.interactor/EntityGateway/createAssignment/#/PointingToDeclaration/hwproj/ru.hse.sd.hwproj.interactor/-entity-gateway/create-assignment.html
 $dokka.location:ru.hse.sd.hwproj.interactor/EntityGateway/getAssignmentDetails/#/PointingToDeclaration/hwproj/ru.hse.sd.hwproj.interactor/-entity-gateway/get-assignment-details.html
 $dokka.location:ru.hse.sd.hwproj.interactor/EntityGateway/getSubmissionDetails/#/PointingToDeclaration/hwproj/ru.hse.sd.hwproj.interactor/-entity-gateway/get-submission-details.html
@@ -69,6 +69,36 @@ $dokka.location:ru.hse.sd.hwproj.io.rest////PointingToDeclaration/hwproj/ru.hse
 $dokka.location:ru.hse.sd.hwproj.io.rest//addRESTModule/io.ktor.server.application.Application#ru.hse.sd.hwproj.interactor.Interactor/PointingToDeclaration/hwproj/ru.hse.sd.hwproj.io.rest/add-r-e-s-t-module.html
 $dokka.location:ru.hse.sd.hwproj.io////PointingToDeclaration/hwproj/ru.hse.sd.hwproj.io/index.html
 $dokka.location:ru.hse.sd.hwproj.io//createServer/#ru.hse.sd.hwproj.interactor.Interactor/PointingToDeclaration/hwproj/ru.hse.sd.hwproj.io/create-server.html
+$dokka.location:ru.hse.sd.hwproj.io//installStatusPages/io.ktor.server.application.Application#/PointingToDeclaration/hwproj/ru.hse.sd.hwproj.io/install-status-pages.html
+$dokka.location:ru.hse.sd.hwproj.messagebroker.rabbtimq////PointingToDeclaration/hwproj/ru.hse.sd.hwproj.messagebroker.rabbtimq/index.html
+$dokka.location:ru.hse.sd.hwproj.messagebroker.rabbtimq/AbstractRabbitMQMessageBroker///PointingToDeclaration/hwproj/ru.hse.sd.hwproj.messagebroker.rabbtimq/-abstract-rabbit-m-q-message-broker/index.html
+$dokka.location:ru.hse.sd.hwproj.messagebroker.rabbtimq/AbstractRabbitMQMessageBroker/AbstractRabbitMQMessageBroker/#kotlin.String#kotlin.String#kotlin.String/PointingToDeclaration/hwproj/ru.hse.sd.hwproj.messagebroker.rabbtimq/-abstract-rabbit-m-q-message-broker/-abstract-rabbit-m-q-message-broker.html
+$dokka.location:ru.hse.sd.hwproj.messagebroker.rabbtimq/RabbitMQEntityMessageBroker///PointingToDeclaration/hwproj/ru.hse.sd.hwproj.messagebroker.rabbtimq/-rabbit-m-q-entity-message-broker/index.html
+$dokka.location:ru.hse.sd.hwproj.messagebroker.rabbtimq/RabbitMQEntityMessageBroker/RabbitMQEntityMessageBroker/#kotlin.String#kotlin.String#kotlin.String/PointingToDeclaration/hwproj/ru.hse.sd.hwproj.messagebroker.rabbtimq/-rabbit-m-q-entity-message-broker/-rabbit-m-q-entity-message-broker.html
+$dokka.location:ru.hse.sd.hwproj.messagebroker.rabbtimq/RabbitMQEntityMessageBroker/sendCheckTask/#ru.hse.sd.hwproj.messagebroker.SubmissionCheckTask#kotlin.Function1[ru.hse.sd.hwproj.messagebroker.SubmissionCheckStatus,kotlin.Unit]/PointingToDeclaration/hwproj/ru.hse.sd.hwproj.messagebroker.rabbtimq/-rabbit-m-q-entity-message-broker/send-check-task.html
+$dokka.location:ru.hse.sd.hwproj.messagebroker.rabbtimq/RabbitMQRunnerMessageBroker///PointingToDeclaration/hwproj/ru.hse.sd.hwproj.messagebroker.rabbtimq/-rabbit-m-q-runner-message-broker/index.html
+$dokka.location:ru.hse.sd.hwproj.messagebroker.rabbtimq/RabbitMQRunnerMessageBroker/RabbitMQRunnerMessageBroker/#kotlin.String#kotlin.String#kotlin.String/PointingToDeclaration/hwproj/ru.hse.sd.hwproj.messagebroker.rabbtimq/-rabbit-m-q-runner-message-broker/-rabbit-m-q-runner-message-broker.html
+$dokka.location:ru.hse.sd.hwproj.messagebroker.rabbtimq/RabbitMQRunnerMessageBroker/handleCheckTasks/#kotlin.Function1[ru.hse.sd.hwproj.messagebroker.SubmissionCheckTask,ru.hse.sd.hwproj.messagebroker.SubmissionCheckStatus]/PointingToDeclaration/hwproj/ru.hse.sd.hwproj.messagebroker.rabbtimq/-rabbit-m-q-runner-message-broker/handle-check-tasks.html
+$dokka.location:ru.hse.sd.hwproj.messagebroker////PointingToDeclaration/hwproj/ru.hse.sd.hwproj.messagebroker/index.html
+$dokka.location:ru.hse.sd.hwproj.messagebroker/CheckStatus.ERROR///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}hwproj/ru.hse.sd.hwproj.messagebroker/-check-status/-e-r-r-o-r/index.html
+$dokka.location:ru.hse.sd.hwproj.messagebroker/CheckStatus.FAILED///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}hwproj/ru.hse.sd.hwproj.messagebroker/-check-status/-f-a-i-l-e-d/index.html
+$dokka.location:ru.hse.sd.hwproj.messagebroker/CheckStatus.IN_PROGRESS///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}hwproj/ru.hse.sd.hwproj.messagebroker/-check-status/-i-n_-p-r-o-g-r-e-s-s/index.html
+$dokka.location:ru.hse.sd.hwproj.messagebroker/CheckStatus.OK///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}hwproj/ru.hse.sd.hwproj.messagebroker/-check-status/-o-k/index.html
+$dokka.location:ru.hse.sd.hwproj.messagebroker/CheckStatus///PointingToDeclaration/hwproj/ru.hse.sd.hwproj.messagebroker/-check-status/index.html
+$dokka.location:ru.hse.sd.hwproj.messagebroker/EntityMessageBroker///PointingToDeclaration/hwproj/ru.hse.sd.hwproj.messagebroker/-entity-message-broker/index.html
+$dokka.location:ru.hse.sd.hwproj.messagebroker/EntityMessageBroker/sendCheckTask/#ru.hse.sd.hwproj.messagebroker.SubmissionCheckTask#kotlin.Function1[ru.hse.sd.hwproj.messagebroker.SubmissionCheckStatus,kotlin.Unit]/PointingToDeclaration/hwproj/ru.hse.sd.hwproj.messagebroker/-entity-message-broker/send-check-task.html
+$dokka.location:ru.hse.sd.hwproj.messagebroker/RunnerMessageBroker///PointingToDeclaration/hwproj/ru.hse.sd.hwproj.messagebroker/-runner-message-broker/index.html
+$dokka.location:ru.hse.sd.hwproj.messagebroker/RunnerMessageBroker/handleCheckTasks/#kotlin.Function1[ru.hse.sd.hwproj.messagebroker.SubmissionCheckTask,ru.hse.sd.hwproj.messagebroker.SubmissionCheckStatus]/PointingToDeclaration/hwproj/ru.hse.sd.hwproj.messagebroker/-runner-message-broker/handle-check-tasks.html
+$dokka.location:ru.hse.sd.hwproj.messagebroker/SubmissionCheckStatus///PointingToDeclaration/hwproj/ru.hse.sd.hwproj.messagebroker/-submission-check-status/index.html
+$dokka.location:ru.hse.sd.hwproj.messagebroker/SubmissionCheckStatus/SubmissionCheckStatus/#kotlin.Int#ru.hse.sd.hwproj.messagebroker.CheckStatus#kotlin.String?/PointingToDeclaration/hwproj/ru.hse.sd.hwproj.messagebroker/-submission-check-status/-submission-check-status.html
+$dokka.location:ru.hse.sd.hwproj.messagebroker/SubmissionCheckStatus/outputString/#/PointingToDeclaration/hwproj/ru.hse.sd.hwproj.messagebroker/-submission-check-status/output-string.html
+$dokka.location:ru.hse.sd.hwproj.messagebroker/SubmissionCheckStatus/status/#/PointingToDeclaration/hwproj/ru.hse.sd.hwproj.messagebroker/-submission-check-status/status.html
+$dokka.location:ru.hse.sd.hwproj.messagebroker/SubmissionCheckStatus/submissionId/#/PointingToDeclaration/hwproj/ru.hse.sd.hwproj.messagebroker/-submission-check-status/submission-id.html
+$dokka.location:ru.hse.sd.hwproj.messagebroker/SubmissionCheckTask///PointingToDeclaration/hwproj/ru.hse.sd.hwproj.messagebroker/-submission-check-task/index.html
+$dokka.location:ru.hse.sd.hwproj.messagebroker/SubmissionCheckTask/SubmissionCheckTask/#kotlin.Int#ru.hse.sd.hwproj.utils.CheckerProgram#kotlin.String/PointingToDeclaration/hwproj/ru.hse.sd.hwproj.messagebroker/-submission-check-task/-submission-check-task.html
+$dokka.location:ru.hse.sd.hwproj.messagebroker/SubmissionCheckTask/checker/#/PointingToDeclaration/hwproj/ru.hse.sd.hwproj.messagebroker/-submission-check-task/checker.html
+$dokka.location:ru.hse.sd.hwproj.messagebroker/SubmissionCheckTask/submissionId/#/PointingToDeclaration/hwproj/ru.hse.sd.hwproj.messagebroker/-submission-check-task/submission-id.html
+$dokka.location:ru.hse.sd.hwproj.messagebroker/SubmissionCheckTask/submissionLink/#/PointingToDeclaration/hwproj/ru.hse.sd.hwproj.messagebroker/-submission-check-task/submission-link.html
 $dokka.location:ru.hse.sd.hwproj.models////PointingToDeclaration/hwproj/ru.hse.sd.hwproj.models/index.html
 $dokka.location:ru.hse.sd.hwproj.models/AssignmentResponse///PointingToDeclaration/hwproj/ru.hse.sd.hwproj.models/-assignment-response/index.html
 $dokka.location:ru.hse.sd.hwproj.models/AssignmentResponse/AssignmentResponse/#kotlin.String#java.time.Instant#kotlin.Int/PointingToDeclaration/hwproj/ru.hse.sd.hwproj.models/-assignment-response/-assignment-response.html
@@ -136,6 +166,12 @@ $dokka.location:ru.hse.sd.hwproj.models/SubmitSubmissionRequest/submissionLink/#
 $dokka.location:ru.hse.sd.hwproj.models/SubmitSubmissionResponse///PointingToDeclaration/hwproj/ru.hse.sd.hwproj.models/-submit-submission-response/index.html
 $dokka.location:ru.hse.sd.hwproj.models/SubmitSubmissionResponse/SubmitSubmissionResponse/#kotlin.Int/PointingToDeclaration/hwproj/ru.hse.sd.hwproj.models/-submit-submission-response/-submit-submission-response.html
 $dokka.location:ru.hse.sd.hwproj.models/SubmitSubmissionResponse/submissionId/#/PointingToDeclaration/hwproj/ru.hse.sd.hwproj.models/-submit-submission-response/submission-id.html
+$dokka.location:ru.hse.sd.hwproj.runner////PointingToDeclaration/hwproj/ru.hse.sd.hwproj.runner/index.html
+$dokka.location:ru.hse.sd.hwproj.runner//main/#/PointingToDeclaration/hwproj/ru.hse.sd.hwproj.runner/main.html
+$dokka.location:ru.hse.sd.hwproj.runner/Runner.Companion///PointingToDeclaration/hwproj/ru.hse.sd.hwproj.runner/-runner/-companion/index.html
+$dokka.location:ru.hse.sd.hwproj.runner/Runner///PointingToDeclaration/hwproj/ru.hse.sd.hwproj.runner/-runner/index.html
+$dokka.location:ru.hse.sd.hwproj.runner/Runner/Runner/#ru.hse.sd.hwproj.messagebroker.RunnerMessageBroker#kotlin.String#kotlin.Long/PointingToDeclaration/hwproj/ru.hse.sd.hwproj.runner/-runner/-runner.html
+$dokka.location:ru.hse.sd.hwproj.runner/Runner/receiveAndCheckTasks/#/PointingToDeclaration/hwproj/ru.hse.sd.hwproj.runner/-runner/receive-and-check-tasks.html
 $dokka.location:ru.hse.sd.hwproj.storage.sqlite////PointingToDeclaration/hwproj/ru.hse.sd.hwproj.storage.sqlite/index.html
 $dokka.location:ru.hse.sd.hwproj.storage.sqlite/SQLiteStorage.Assignment.Companion///PointingToDeclaration/hwproj/ru.hse.sd.hwproj.storage.sqlite/-s-q-lite-storage/-assignment/-companion/index.html
 $dokka.location:ru.hse.sd.hwproj.storage.sqlite/SQLiteStorage.Assignment///PointingToDeclaration/hwproj/ru.hse.sd.hwproj.storage.sqlite/-s-q-lite-storage/-assignment/index.html
@@ -218,7 +254,10 @@ ru.hse.sd.hwproj.io.html
 ru.hse.sd.hwproj.io.html.student
 ru.hse.sd.hwproj.io.html.teacher
 ru.hse.sd.hwproj.io.rest
+ru.hse.sd.hwproj.messagebroker
+ru.hse.sd.hwproj.messagebroker.rabbtimq
 ru.hse.sd.hwproj.models
+ru.hse.sd.hwproj.runner
 ru.hse.sd.hwproj.storage
 ru.hse.sd.hwproj.storage.sqlite
 ru.hse.sd.hwproj.utils
