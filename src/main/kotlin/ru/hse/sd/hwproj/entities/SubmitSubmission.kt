@@ -24,8 +24,7 @@ class SubmitSubmission(private val storage: Storage, private val messageBroker: 
                 request.submissionLink
             )
         ) { checkStatus ->
-            println("SAVE CHECK STATUS: $checkStatus")
-            // TODO: replace with storage.getSubmission(submissionId).checkResult = checkStatus.status
+            storage.setCheckResult(submissionId, checkStatus.status, checkStatus.outputString)
         }
 
         return SubmitSubmissionResponse(submissionId)

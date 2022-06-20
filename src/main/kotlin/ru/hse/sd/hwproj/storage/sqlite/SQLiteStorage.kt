@@ -11,6 +11,7 @@ import org.jetbrains.exposed.sql.transactions.transaction
 import org.sqlite.SQLiteDataSource
 import ru.hse.sd.hwproj.exceptions.NoSuchAssignment
 import ru.hse.sd.hwproj.exceptions.NoSuchSubmission
+import ru.hse.sd.hwproj.messagebroker.CheckStatus
 import ru.hse.sd.hwproj.storage.AssignmentORM
 import ru.hse.sd.hwproj.storage.CheckResultORM
 import ru.hse.sd.hwproj.storage.Storage
@@ -43,8 +44,8 @@ class SQLiteStorage(sourcePath: String?) : Storage {
     }
 
     private object CheckResults : IntIdTable() {
-        val success = bool("success")
-        val output = text("output")
+        val status = enumeration<CheckStatus>("status")
+        val output = text("output").nullable()
     }
 
     /**
@@ -68,7 +69,7 @@ class SQLiteStorage(sourcePath: String?) : Storage {
     class CheckResult(id: EntityID<Int>) : IntEntity(id), CheckResultORM {
         companion object : IntEntityClass<CheckResult>(CheckResults)
 
-        override var success by CheckResults.success
+        override var status by CheckResults.status
         override var output by CheckResults.output
 
         override val checkResultId by id::value
@@ -164,4 +165,23 @@ class SQLiteStorage(sourcePath: String?) : Storage {
     override fun getAssignment(id: Int): AssignmentORM = transaction {
         Assignment.findById(id)
     } ?: throw NoSuchAssignment(id)
+
+    override fun setCheckResult(submissionId: Int, checkStatus: CheckStatus, output: String?) = transaction {
+        val submission = Submission
+            .findById(submissionId)
+            .let { it ?: throw NoSuchSubmission(submissionId) }
+        if (submission.checkResult != null) {
+            submission.checkResult!!.apply {
+                this.status = checkStatus
+                this.output = output
+            }
+        } else {
+            val newCheckResult = CheckResult.new {
+                this.status = checkStatus
+                this.output = output
+            }
+            submission.checkResult = newCheckResult
+            newCheckResult
+        }
+    }.checkResultId
 }

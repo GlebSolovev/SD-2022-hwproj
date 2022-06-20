@@ -1,5 +1,6 @@
 package ru.hse.sd.hwproj.storage
 
+import ru.hse.sd.hwproj.messagebroker.CheckStatus
 import ru.hse.sd.hwproj.utils.CheckerProgram
 import ru.hse.sd.hwproj.utils.Timestamp
 
@@ -56,6 +57,18 @@ interface Storage {
         deadlineTimestamp: Timestamp,
         checker: CheckerProgram?
     ): Int
+
+    /**
+     * Sets check result for a specific submission.
+     *
+     * This method will either create a new check result or modify an existing one.
+     *
+     * @param submissionId The id of specific submission.
+     * @param checkStatus The [CheckStatus] to be set.
+     *
+     * @return The id
+     */
+    fun setCheckResult(submissionId: Int, checkStatus: CheckStatus, output: String?): Int
 }
 
 /**
@@ -88,8 +101,8 @@ interface SubmissionORM {
  * Interface for a class which is an ORM for a check result.
  */
 interface CheckResultORM {
-    val success: Boolean
-    val output: String
+    val status: CheckStatus?
+    val output: String?
 
     val checkResultId: Int
 }

@@ -1,6 +1,7 @@
 package ru.hse.sd.hwproj.io.html
 
 import kotlinx.html.*
+import ru.hse.sd.hwproj.messagebroker.CheckStatus
 import ru.hse.sd.hwproj.models.*
 import ru.hse.sd.hwproj.utils.Timestamp
 import ru.hse.sd.hwproj.utils.formatToString
@@ -46,8 +47,10 @@ fun DIV.submissionsTable(submissions: List<SubmissionResponse>, isStudent: Boole
         for ((success, assignmentName, id, _) in submissions) {
             val colorTag = when (success) {
                 null -> ""
-                true -> "table-success"
-                false -> "table-danger"
+                CheckStatus.OK -> "table-success"
+                CheckStatus.FAILED -> "table-danger"
+                CheckStatus.IN_PROGRESS -> "table-warning"
+                CheckStatus.ERROR -> "table-dark"
             }
             tr(colorTag) {
                 td { +"$id" }
@@ -80,15 +83,11 @@ fun DIV.submissionDetails(response: GetSubmissionDetailsResponse) {
         div("m-2") {
             this@dl.dt { +"Checking status" }
             this@dl.dd {
-                +when (checkResult?.success) {
-                    null -> "unknown / not ready"
-                    true -> "success"
-                    false -> "failure"
-                }
+                +(checkResult?.status?.toString() ?: "unknown")
             }
         }
-        if (checkResult != null) div("m-2") {
-            this@dl.dt { +"Checker output}" }
+        if (checkResult?.output != null) div("m-2") {
+            this@dl.dt { +"Checker output" }
             this@dl.dd { +checkResult.output }
         }
     }

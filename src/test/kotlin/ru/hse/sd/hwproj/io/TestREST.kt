@@ -151,6 +151,7 @@ class TestREST {
     @Test
     fun testSubmissions() = testApplication {
         val client = doSetup()
+        val mockCheckResultResponse = CheckResultResponse(CheckStatus.OK, "")
 
         val resp1 = client.get("/api/submissions")
         val respModel1 = resp1.call.body<ListSubmissionsResponse>()
@@ -183,12 +184,12 @@ class TestREST {
         assertEquals(1, respModel4.submissions.size)
         val submResp4 = respModel4.submissions[0]
         assertEquals(sampleName, submResp4.assignmentName)
-        assertEquals(null, submResp4.success)
+        assertEquals(mockCheckResultResponse.status, submResp4.checkStatus)
         assertEquals(submId, submResp4.id)
 
         val resp5 = client.get("/api/submissions/$submId")
         val respModel5 = resp5.call.body<GetSubmissionDetailsResponse>()
-        assertEquals(null, respModel5.checkResultResponse) // TODO: bool -> enum and check OK
+        assertEquals(mockCheckResultResponse, respModel5.checkResultResponse)
         val submResp5 = respModel5.submissionResponse
         assertEquals(submResp4, submResp5)
     }

@@ -4,6 +4,7 @@ package ru.hse.sd.hwproj.models
 
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.UseSerializers
+import ru.hse.sd.hwproj.messagebroker.CheckStatus
 import ru.hse.sd.hwproj.storage.AssignmentORM
 import ru.hse.sd.hwproj.storage.CheckResultORM
 import ru.hse.sd.hwproj.storage.SubmissionORM
@@ -84,14 +85,14 @@ data class AssignmentResponse(
  */
 @Serializable
 data class SubmissionResponse(
-    val success: Boolean?,
+    val checkStatus: CheckStatus?,
     val assignmentName: String,
     val id: Int,
     val timestamp: Timestamp
 ) {
 
     constructor(submissionORM: SubmissionORM) : this(
-        submissionORM.checkResult?.success,
+        submissionORM.checkResult?.status,
         submissionORM.assignment.name,
         submissionORM.submissionId,
         submissionORM.submissionTimestamp
@@ -102,8 +103,8 @@ data class SubmissionResponse(
  * Basic information of a check result.
  */
 @Serializable
-data class CheckResultResponse(val success: Boolean, val output: String) {
-    constructor(checkResultORM: CheckResultORM) : this(checkResultORM.success, checkResultORM.output)
+data class CheckResultResponse(val status: CheckStatus?, val output: String?) {
+    constructor(checkResultORM: CheckResultORM) : this(checkResultORM.status, checkResultORM.output)
 }
 
 /**
