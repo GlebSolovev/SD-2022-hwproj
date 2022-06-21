@@ -18,6 +18,12 @@ plugins {
     jacoco
 
     id("org.barfuin.gradle.jacocolog") version "2.0.0"
+
+    id("com.avast.gradle.docker-compose") version "0.16.4"
+}
+
+dockerCompose {
+    useComposeFiles.addAll("rabbitmq-server/docker-compose.yml")
 }
 
 buildscript {
@@ -83,11 +89,15 @@ task("run-server", JavaExec::class) {
     classpath = sourceSets.main.get().runtimeClasspath
 }
 
+dockerCompose.isRequiredBy(tasks.named("run-server"))
+
 task("run-runner", JavaExec::class) {
     group = "application"
     mainClass.set("ru.hse.sd.hwproj.runner.MainKt")
     classpath = sourceSets.main.get().runtimeClasspath
 }
+
+dockerCompose.isRequiredBy(tasks.named("run-runner"))
 
 detekt {
     buildUponDefaultConfig = true
