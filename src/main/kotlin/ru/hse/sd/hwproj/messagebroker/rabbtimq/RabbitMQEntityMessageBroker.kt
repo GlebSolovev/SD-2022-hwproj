@@ -24,7 +24,7 @@ import java.util.concurrent.ConcurrentHashMap
  * @param statusQueueName The name of the queue for receiving statuses of check tasks.
  */
 class RabbitMQEntityMessageBroker(
-    serverHost: String = "localhost",
+    serverHost: String = "rabbitmq",
     taskQueueName: String = "task_queue",
     statusQueueName: String = "status_queue"
 ) : AbstractRabbitMQMessageBroker(serverHost, taskQueueName, statusQueueName), EntityMessageBroker {

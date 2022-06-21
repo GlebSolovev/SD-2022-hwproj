@@ -35,16 +35,17 @@ class Runner(
     fun receiveAndCheckTasks() {
         messageBroker.handleCheckTasks { checkTask ->
             val scriptName = DEFAULT_SCRIPT_FILENAME + "-${checkTask.submissionId}.sh"
-            val scriptFile = File(workingDirectory).resolve(scriptName)
+            val scriptFile = File(workingDirectory).resolve(scriptName).absoluteFile
             try {
                 scriptFile.writeBytes(checkTask.checker.bytes)
 
-                val runResult = runBashScript(scriptFile.canonicalPath, checkTask.submissionLink)
+                val runResult = runBashScript(scriptName, checkTask.submissionLink)
                 val status = if (runResult.exitCode == 0) CheckStatus.OK else CheckStatus.FAILED
                 return@handleCheckTasks SubmissionCheckStatus(checkTask.submissionId, status, runResult.outputString)
 
             } catch (exception: Exception) {
                 println("Exception occurred while checking submission #${checkTask.submissionId}:\n$exception")
+                exception.printStackTrace()
                 return@handleCheckTasks SubmissionCheckStatus(checkTask.submissionId, CheckStatus.ERROR, null)
             } finally {
                 Files.deleteIfExists(scriptFile.toPath())
@@ -56,7 +57,7 @@ class Runner(
 
     private fun runBashScript(bashScriptFilePath: String, submissionLink: String): BashRunResult {
         val proc = ProcessBuilder("bash", bashScriptFilePath, submissionLink)
-            .directory(File(workingDirectory))
+            .directory(File(workingDirectory).absoluteFile)
             .redirectOutput(ProcessBuilder.Redirect.PIPE)
             .redirectError(ProcessBuilder.Redirect.PIPE)
             .start()

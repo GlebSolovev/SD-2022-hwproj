@@ -20,7 +20,7 @@ import ru.hse.sd.hwproj.runner.Runner
  * @param statusQueueName The name of the queue for sending statuses of check tasks.
  */
 class RabbitMQRunnerMessageBroker(
-    serverHost: String = "localhost",
+    serverHost: String = "rabbitmq",
     taskQueueName: String = "task_queue",
     statusQueueName: String = "status_queue"
 ) : AbstractRabbitMQMessageBroker(serverHost, taskQueueName, statusQueueName), RunnerMessageBroker {

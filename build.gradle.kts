@@ -6,6 +6,8 @@ plugins {
     kotlin("jvm") version "1.6.21"
     kotlin("plugin.serialization") version "1.6.21"
 
+    id("com.github.johnrengelman.shadow") version "7.1.2"
+
     id("org.jlleitschuh.gradle.ktlint") version "10.2.1"
     id("org.jlleitschuh.gradle.ktlint-idea") version "10.2.1"
 
@@ -18,12 +20,6 @@ plugins {
     jacoco
 
     id("org.barfuin.gradle.jacocolog") version "2.0.0"
-
-    id("com.avast.gradle.docker-compose") version "0.16.4"
-}
-
-dockerCompose {
-    useComposeFiles.addAll("rabbitmq-server/docker-compose.yml")
 }
 
 buildscript {
@@ -82,22 +78,6 @@ tasks.withType<KotlinCompile> {
 tasks.test {
     useJUnitPlatform()
 }
-
-task("run-server", JavaExec::class) {
-    group = "application"
-    mainClass.set("ru.hse.sd.hwproj.MainKt")
-    classpath = sourceSets.main.get().runtimeClasspath
-}
-
-dockerCompose.isRequiredBy(tasks.named("run-server"))
-
-task("run-runner", JavaExec::class) {
-    group = "application"
-    mainClass.set("ru.hse.sd.hwproj.runner.MainKt")
-    classpath = sourceSets.main.get().runtimeClasspath
-}
-
-dockerCompose.isRequiredBy(tasks.named("run-runner"))
 
 detekt {
     buildUponDefaultConfig = true
