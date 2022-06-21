@@ -69,7 +69,7 @@ fun HTML.makeTeacherNewAssignmentPage() {
                         dateTimeLocalInput(name = "deadlineTime", classes = "form-control") { required = true }
                     }
                     p {
-                        label { +"Checker program:" }
+                        label { +"Checker bash script:" }
                         fileInput(name = "checker", classes = "form-control")
                     }
                     p {
