@@ -2,6 +2,8 @@
 
 <img src="hwproj-logo.png" align="right"  alt="hwproj logo"/>
 
+[![Run tests](https://github.com/GlebSolovev/SD-2022-hwproj/actions/workflows/ci-validate.yml/badge.svg)](https://github.com/GlebSolovev/SD-2022-hwproj/actions/workflows/ci-validate.yml)
+
 ## Краткое описание
 
 _Software Design HW: client server web app for interaction between students and teachers._
