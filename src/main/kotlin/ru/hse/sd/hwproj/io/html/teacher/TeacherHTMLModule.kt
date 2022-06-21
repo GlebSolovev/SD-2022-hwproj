@@ -18,7 +18,7 @@ fun Application.addTeacherHTMLModule(interactor: Interactor) {
     routing {
         route("/teacher") {
             get("/assignments") {
-                val request = ListAssignmentsRequest()
+                val request = ListAssignmentsRequest(true)
                 val response = interactor.handleRequest(request) as ListAssignmentsResponse
                 call.respondHtml { makeTeacherAssignmentsPage(response) }
             }

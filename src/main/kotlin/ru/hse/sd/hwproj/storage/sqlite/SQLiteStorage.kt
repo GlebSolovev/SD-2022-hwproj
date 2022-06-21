@@ -5,6 +5,7 @@ import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.Database
+import org.jetbrains.exposed.sql.Op
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.javatime.timestamp
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -123,9 +124,9 @@ class SQLiteStorage(sourcePath: String?) : Storage {
             .map(::submissionConverter)
     }
 
-    override fun listAssignments(): List<AssignmentORM> = transaction {
+    override fun listAssignments(showUnpublished: Boolean): List<AssignmentORM> = transaction {
         Assignment
-            .find { Assignments.publicationTimestamp less Timestamp.now() }
+            .find { if (showUnpublished) Op.TRUE else Assignments.publicationTimestamp less Timestamp.now() }
             .sortedBy { it.deadlineTimestamp }
     }
 

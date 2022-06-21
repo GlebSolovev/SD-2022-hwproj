@@ -26,7 +26,8 @@ fun Application.addRESTModule(interactor: Interactor) {
 private fun Route.routeREST(interactor: Interactor) {
     route("/assignments") {
         get {
-            call.respond(interactor.handleRequest(ListAssignmentsRequest()) as ListAssignmentsResponse)
+            val showUnpublished = call.request.queryParameters["showUnpublished"] == "true"
+            call.respond(interactor.handleRequest(ListAssignmentsRequest(showUnpublished)) as ListAssignmentsResponse)
         }
         post {
             val request = call.receive<CreateAssignmentRequest>()

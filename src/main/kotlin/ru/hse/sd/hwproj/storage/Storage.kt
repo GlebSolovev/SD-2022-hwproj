@@ -17,7 +17,7 @@ interface Storage {
     /**
      * Returns the list of stored assignments.
      */
-    fun listAssignments(): List<AssignmentORM>
+    fun listAssignments(showUnpublished: Boolean): List<AssignmentORM>
 
     /**
      * Returns the submission by its id.

@@ -17,9 +17,11 @@ sealed class RequestModel
 
 /**
  * Request for getting the list of all assignments.
+ *
+ * @property showUnpublished If true, assignments will not be filtered base on publication timestamp.
  */
 @Serializable
-class ListAssignmentsRequest : RequestModel()
+data class ListAssignmentsRequest(val showUnpublished: Boolean) : RequestModel()
 
 /**
  * Request for getting the details for a specific assignment.
