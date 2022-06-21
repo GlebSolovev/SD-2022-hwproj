@@ -76,3 +76,16 @@ _Дополнительно._
 ```bash
 ./gradlew test
 ```
+
+## Список REST endpoint-ов
+
+С префиксом `/api/`:
+
+* GET `/assignments`: получить список всех заданий
+* POST `/assignments`: добавить новое задание
+* GET `/assignments/{id}`: получить детали задания под номером `id`
+* GET `/submissions`: получить список всех решений
+* POST `/submissions`: отправить новое решение
+* GET `/submissions/{id}`: получить детали решения под номером `id`
+
+###### Хотелось OpenAPI, но фреймворк Ktor так не умеет :(
