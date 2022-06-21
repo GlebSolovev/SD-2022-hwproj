@@ -143,7 +143,8 @@ $dokka.location:ru.hse.sd.hwproj.models/GetSubmissionDetailsResponse/checkResult
 $dokka.location:ru.hse.sd.hwproj.models/GetSubmissionDetailsResponse/submissionLink/#/PointingToDeclaration/hwproj/ru.hse.sd.hwproj.models/-get-submission-details-response/submission-link.html
 $dokka.location:ru.hse.sd.hwproj.models/GetSubmissionDetailsResponse/submissionResponse/#/PointingToDeclaration/hwproj/ru.hse.sd.hwproj.models/-get-submission-details-response/submission-response.html
 $dokka.location:ru.hse.sd.hwproj.models/ListAssignmentsRequest///PointingToDeclaration/hwproj/ru.hse.sd.hwproj.models/-list-assignments-request/index.html
-$dokka.location:ru.hse.sd.hwproj.models/ListAssignmentsRequest/ListAssignmentsRequest/#/PointingToDeclaration/hwproj/ru.hse.sd.hwproj.models/-list-assignments-request/-list-assignments-request.html
+$dokka.location:ru.hse.sd.hwproj.models/ListAssignmentsRequest/ListAssignmentsRequest/#kotlin.Boolean/PointingToDeclaration/hwproj/ru.hse.sd.hwproj.models/-list-assignments-request/-list-assignments-request.html
+$dokka.location:ru.hse.sd.hwproj.models/ListAssignmentsRequest/showUnpublished/#/PointingToDeclaration/hwproj/ru.hse.sd.hwproj.models/-list-assignments-request/show-unpublished.html
 $dokka.location:ru.hse.sd.hwproj.models/ListAssignmentsResponse///PointingToDeclaration/hwproj/ru.hse.sd.hwproj.models/-list-assignments-response/index.html
 $dokka.location:ru.hse.sd.hwproj.models/ListAssignmentsResponse/ListAssignmentsResponse/#kotlin.collections.List[ru.hse.sd.hwproj.models.AssignmentResponse]/PointingToDeclaration/hwproj/ru.hse.sd.hwproj.models/-list-assignments-response/-list-assignments-response.html
 $dokka.location:ru.hse.sd.hwproj.models/ListAssignmentsResponse/assignments/#/PointingToDeclaration/hwproj/ru.hse.sd.hwproj.models/-list-assignments-response/assignments.html
@@ -204,7 +205,7 @@ $dokka.location:ru.hse.sd.hwproj.storage.sqlite/SQLiteStorage/createAssignment/#
 $dokka.location:ru.hse.sd.hwproj.storage.sqlite/SQLiteStorage/createSubmission/#kotlin.Int#kotlin.String/PointingToDeclaration/hwproj/ru.hse.sd.hwproj.storage.sqlite/-s-q-lite-storage/create-submission.html
 $dokka.location:ru.hse.sd.hwproj.storage.sqlite/SQLiteStorage/getAssignment/#kotlin.Int/PointingToDeclaration/hwproj/ru.hse.sd.hwproj.storage.sqlite/-s-q-lite-storage/get-assignment.html
 $dokka.location:ru.hse.sd.hwproj.storage.sqlite/SQLiteStorage/getSubmission/#kotlin.Int/PointingToDeclaration/hwproj/ru.hse.sd.hwproj.storage.sqlite/-s-q-lite-storage/get-submission.html
-$dokka.location:ru.hse.sd.hwproj.storage.sqlite/SQLiteStorage/listAssignments/#/PointingToDeclaration/hwproj/ru.hse.sd.hwproj.storage.sqlite/-s-q-lite-storage/list-assignments.html
+$dokka.location:ru.hse.sd.hwproj.storage.sqlite/SQLiteStorage/listAssignments/#kotlin.Boolean/PointingToDeclaration/hwproj/ru.hse.sd.hwproj.storage.sqlite/-s-q-lite-storage/list-assignments.html
 $dokka.location:ru.hse.sd.hwproj.storage.sqlite/SQLiteStorage/listSubmissions/#/PointingToDeclaration/hwproj/ru.hse.sd.hwproj.storage.sqlite/-s-q-lite-storage/list-submissions.html
 $dokka.location:ru.hse.sd.hwproj.storage.sqlite/SQLiteStorage/setCheckResult/#kotlin.Int#ru.hse.sd.hwproj.messagebroker.CheckStatus#kotlin.String?/PointingToDeclaration/hwproj/ru.hse.sd.hwproj.storage.sqlite/-s-q-lite-storage/set-check-result.html
 $dokka.location:ru.hse.sd.hwproj.storage////PointingToDeclaration/hwproj/ru.hse.sd.hwproj.storage/index.html
@@ -224,7 +225,7 @@ $dokka.location:ru.hse.sd.hwproj.storage/Storage/createAssignment/#kotlin.String
 $dokka.location:ru.hse.sd.hwproj.storage/Storage/createSubmission/#kotlin.Int#kotlin.String/PointingToDeclaration/hwproj/ru.hse.sd.hwproj.storage/-storage/create-submission.html
 $dokka.location:ru.hse.sd.hwproj.storage/Storage/getAssignment/#kotlin.Int/PointingToDeclaration/hwproj/ru.hse.sd.hwproj.storage/-storage/get-assignment.html
 $dokka.location:ru.hse.sd.hwproj.storage/Storage/getSubmission/#kotlin.Int/PointingToDeclaration/hwproj/ru.hse.sd.hwproj.storage/-storage/get-submission.html
-$dokka.location:ru.hse.sd.hwproj.storage/Storage/listAssignments/#/PointingToDeclaration/hwproj/ru.hse.sd.hwproj.storage/-storage/list-assignments.html
+$dokka.location:ru.hse.sd.hwproj.storage/Storage/listAssignments/#kotlin.Boolean/PointingToDeclaration/hwproj/ru.hse.sd.hwproj.storage/-storage/list-assignments.html
 $dokka.location:ru.hse.sd.hwproj.storage/Storage/listSubmissions/#/PointingToDeclaration/hwproj/ru.hse.sd.hwproj.storage/-storage/list-submissions.html
 $dokka.location:ru.hse.sd.hwproj.storage/Storage/setCheckResult/#kotlin.Int#ru.hse.sd.hwproj.messagebroker.CheckStatus#kotlin.String?/PointingToDeclaration/hwproj/ru.hse.sd.hwproj.storage/-storage/set-check-result.html
 $dokka.location:ru.hse.sd.hwproj.storage/SubmissionORM///PointingToDeclaration/hwproj/ru.hse.sd.hwproj.storage/-submission-o-r-m/index.html
