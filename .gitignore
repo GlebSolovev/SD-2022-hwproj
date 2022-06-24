@@ -1,0 +1,5 @@
+.idea/
+.gradle/
+build/
+rabbitmq-server/rabbitmq-internal
+src/main/resources/db

@@ -1,0 +1,43 @@
+build:
+  maxIssues: 0
+  excludeCorrectable: false
+
+config:
+  validation: true
+  warningsAsErrors: true
+
+processors:
+  active: true
+  exclude:
+    - 'DetektProgressListener'
+
+console-reports:
+  active: true
+
+complexity:
+  ComplexMethod:
+    threshold: 40
+  NestedBlockDepth:
+    threshold: 5
+  LongMethod:
+    threshold: 65
+
+style:
+  ReturnCount:
+    max: 5
+  WildcardImport:
+    excludeImports:
+      - 'java.io.*'
+      - 'java.util.*'
+      - 'kotlin.test.*'
+      - 'ru.hse.sd.hwproj.entities.*'
+      - 'ru.hse.sd.hwproj.models.*'
+      - 'io.ktor.*'
+      - 'kotlinx.html.*'
+      - 'ru.hse.sd.hwproj.io.html.*'
+  ForbiddenComment:
+    allowedPatterns: 'TODO'
+  MagicNumber:
+    ignoreEnums: true
+  UnnecessaryAbstractClass:
+    active: false

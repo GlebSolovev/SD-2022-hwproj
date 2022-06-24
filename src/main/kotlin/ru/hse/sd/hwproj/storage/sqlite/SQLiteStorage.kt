@@ -1,0 +1,188 @@
+package ru.hse.sd.hwproj.storage.sqlite
+
+import org.jetbrains.exposed.dao.IntEntity
+import org.jetbrains.exposed.dao.IntEntityClass
+import org.jetbrains.exposed.dao.id.EntityID
+import org.jetbrains.exposed.dao.id.IntIdTable
+import org.jetbrains.exposed.sql.Database
+import org.jetbrains.exposed.sql.Op
+import org.jetbrains.exposed.sql.SchemaUtils
+import org.jetbrains.exposed.sql.javatime.timestamp
+import org.jetbrains.exposed.sql.transactions.transaction
+import org.sqlite.SQLiteDataSource
+import ru.hse.sd.hwproj.exceptions.NoSuchAssignment
+import ru.hse.sd.hwproj.exceptions.NoSuchSubmission
+import ru.hse.sd.hwproj.messagebroker.CheckStatus
+import ru.hse.sd.hwproj.storage.AssignmentORM
+import ru.hse.sd.hwproj.storage.CheckResultORM
+import ru.hse.sd.hwproj.storage.Storage
+import ru.hse.sd.hwproj.storage.SubmissionORM
+import ru.hse.sd.hwproj.utils.CheckerProgram
+import ru.hse.sd.hwproj.utils.Timestamp
+import java.time.Instant
+
+/**
+ * A [Storage] which uses SQLite database for storing data with Jetbrains Exposed ORM.
+ *
+ * @param sourcePath Path to SQLite database file. If null, an in-memory SQLite database is created.
+ */
+class SQLiteStorage(sourcePath: String?) : Storage {
+
+    private object Assignments : IntIdTable() {
+        val name = text("name")
+        val taskText = text("taskText")
+        val publicationTimestamp = timestamp("publicationTimestamp")
+        val deadlineTimestamp = timestamp("deadlineTimestamp")
+        val checkerProgram = binary("checkerProgram").nullable()
+    }
+
+    private object Submissions : IntIdTable() {
+        val submissionTimestamp = timestamp("submissionTimestamp")
+        val submissionLink = text("submissionLink")
+
+        val assignmentId = reference("assignmentId", Assignments)
+        val checkResultId = reference("checkResultId", CheckResults).nullable()
+    }
+
+    private object CheckResults : IntIdTable() {
+        val status = enumeration<CheckStatus>("status")
+        val output = text("output").nullable()
+    }
+
+    /**
+     * Jetbrains' Exposed ORM for an assignment.
+     */
+    class Assignment(id: EntityID<Int>) : IntEntity(id), AssignmentORM {
+        companion object : IntEntityClass<Assignment>(Assignments)
+
+        override var name by Assignments.name
+        override var taskText by Assignments.taskText
+        override var publicationTimestamp by Assignments.publicationTimestamp
+        override var deadlineTimestamp by Assignments.deadlineTimestamp
+        override var checkerProgram by Assignments.checkerProgram
+
+        override val assignmentId by id::value
+    }
+
+    /**
+     * Jetbrains' Exposed ORM for a check result.
+     */
+    class CheckResult(id: EntityID<Int>) : IntEntity(id), CheckResultORM {
+        companion object : IntEntityClass<CheckResult>(CheckResults)
+
+        override var status by CheckResults.status
+        override var output by CheckResults.output
+
+        override val checkResultId by id::value
+    }
+
+    /**
+     * Jetbrains' Exposed ORM for a submission.
+     */
+    class Submission(id: EntityID<Int>) : IntEntity(id), SubmissionORM {
+        companion object : IntEntityClass<Submission>(Submissions)
+
+        override var submissionTimestamp by Submissions.submissionTimestamp
+        override var submissionLink by Submissions.submissionLink
+
+        override var assignment by Assignment referencedOn Submissions.assignmentId
+        override var checkResult by CheckResult optionalReferencedOn Submissions.checkResultId
+
+        override val submissionId by id::value
+    }
+
+    init {
+        val url = if (sourcePath != null)
+            "jdbc:sqlite:$sourcePath"
+        else
+            "jdbc:sqlite:file:test?mode=memory&cache=shared"
+
+        val source = SQLiteDataSource().apply {
+            this.url = url
+        }
+
+        Database.connect(source)
+
+        transaction {
+            SchemaUtils.create(Assignments, CheckResults, Submissions)
+        }
+    }
+
+    // ------------ interface implementation ------------
+
+    // accessing Assignment outside of transaction throws
+    // TODO: avoid this somehow?..
+    private fun submissionConverter(s: Submission) = object : SubmissionORM by s {
+        override val assignment = s.assignment
+        override val checkResult = s.checkResult
+    }
+
+    override fun listSubmissions(): List<SubmissionORM> = transaction {
+        Submission
+            .all()
+            .sortedBy { it.submissionTimestamp }
+            .map(::submissionConverter)
+    }
+
+    override fun listAssignments(showUnpublished: Boolean): List<AssignmentORM> = transaction {
+        Assignment
+            .find { if (showUnpublished) Op.TRUE else Assignments.publicationTimestamp less Timestamp.now() }
+            .sortedBy { it.deadlineTimestamp }
+    }
+
+    override fun getSubmission(id: Int): SubmissionORM = transaction {
+        Submission
+            .findById(id)
+            ?.let { submissionConverter(it) }
+    } ?: throw NoSuchSubmission(id)
+
+    override fun createSubmission(assignmentId: Int, submissionLink: String): Int = transaction {
+        Submission.new {
+            this.submissionTimestamp = Instant.now()
+            this.submissionLink = submissionLink
+
+            this.assignment = Assignment[assignmentId]
+            this.checkResult = null
+        }.submissionId
+    }
+    // TODO: constraints - in tables? ===> maybe not, let checkerProgram handle it
+
+    override fun createAssignment(
+        name: String,
+        taskText: String,
+        publicationTimestamp: Timestamp,
+        deadlineTimestamp: Timestamp,
+        checker: CheckerProgram?
+    ): Int = transaction {
+        Assignment.new {
+            this.name = name
+            this.taskText = taskText
+            this.publicationTimestamp = publicationTimestamp
+            this.deadlineTimestamp = deadlineTimestamp
+            this.checkerProgram = checker?.bytes
+        }.assignmentId
+    }
+
+    override fun getAssignment(id: Int): AssignmentORM = transaction {
+        Assignment.findById(id)
+    } ?: throw NoSuchAssignment(id)
+
+    override fun setCheckResult(submissionId: Int, checkStatus: CheckStatus, output: String?) = transaction {
+        val submission = Submission
+            .findById(submissionId)
+            .let { it ?: throw NoSuchSubmission(submissionId) }
+        if (submission.checkResult != null) {
+            submission.checkResult!!.apply {
+                this.status = checkStatus
+                this.output = output
+            }
+        } else {
+            val newCheckResult = CheckResult.new {
+                this.status = checkStatus
+                this.output = output
+            }
+            submission.checkResult = newCheckResult
+            newCheckResult
+        }
+    }.checkResultId
+}

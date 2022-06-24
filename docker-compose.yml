@@ -1,0 +1,50 @@
+version: "3.8"
+
+networks:
+  rabbitmq_net:
+    driver: bridge
+
+services:
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    hostname: rabbitmq
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 15s
+      timeout: 15s
+      retries: 3
+    networks:
+      - rabbitmq_net
+
+  server:
+    build:
+      dockerfile: dockerfiles/server.Dockerfile
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./src/main/resources/:/hwproj/src/main/resources
+    networks:
+      - rabbitmq_net
+    restart: on-failure
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
+  runner:
+    build:
+      dockerfile: dockerfiles/runner.Dockerfile
+    volumes:
+      - ./src/main/resources/:/hwproj/src/main/resources
+    networks:
+      - rabbitmq_net
+    restart: on-failure
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    deploy:
+      mode: replicated
+      replicas: 2
